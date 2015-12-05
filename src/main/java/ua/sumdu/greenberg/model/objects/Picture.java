@@ -2,9 +2,7 @@ package ua.sumdu.greenberg.model.objects;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * This is EJB
@@ -16,6 +14,7 @@ import javax.persistence.Table;
 @Table(name = "PICTURES")
 public class Picture implements Serializable{
 	private static final long serialVersionUID = 1L;
+	@Id
 	@Column(name = "PRODUCT_ID")
 	private int productID;
 	@Column(name = "NAME")

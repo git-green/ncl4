@@ -3,10 +3,7 @@ package ua.sumdu.greenberg.model.objects;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * This is Product EJB
@@ -28,8 +25,10 @@ public class Product implements Serializable {
 	@Column(name = "DESCRIPTION")
 	private String description;
 	@Column(name = "START_DATE(yyyy-MM-dd)")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDate;
 	@Column(name = "END_DATE(yyyy-MM-dd)")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	@Column(name = "START_PRICE")
 	private int startPrice;

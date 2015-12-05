@@ -2,10 +2,7 @@ package ua.sumdu.greenberg.model.objects;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.Date;
 import java.util.List;
@@ -44,6 +41,7 @@ public class User implements Serializable {
 
 	private boolean isBanned;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date registrationDate;
 
 	public User(int id, String login, String password, String name,
