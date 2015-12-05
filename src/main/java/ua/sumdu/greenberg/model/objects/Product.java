@@ -1,37 +1,63 @@
 package ua.sumdu.greenberg.model.objects;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Product {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-    private int id;
-    private int sellerID;
-    private String name;
-    private String description;
-    private Date startDate;
-    private Date endDate;
-    private int startPrice;
-    private int buyoutPrice;
-    private int currentPrice;
-    private int currentBuyerID;
-    private boolean isActive;
-	
-    
-    public Product(int id, int sellerID, String name, String description,
-    		Date startDate, Date endDate, int startPrice, int buyoutPrice,
-    		int currentPrice, int currentBuyerID, boolean isActive) {
-    	setId(id);
-    	setSellerID(sellerID);
-    	setName(name);
-    	setDescription(description);
-    	setStartDate(startDate);
-    	setEndDate(endDate);
-    	setStartPrice(startPrice);
-    	setBuyoutPrice(buyoutPrice);
-    	setCurrentPrice(currentPrice);
+/**
+ * This is Product EJB
+ *
+ * @author GREEN
+ *
+ */
+@Entity
+@Table(name = "PRODUCTS")
+public class Product implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	@Column(name = "ID")
+	private int id;
+	@Column(name = "SELER_ID")
+	private int sellerID;
+	@Column(name = "NAME")
+	private String name;
+	@Column(name = "DESCRIPTION")
+	private String description;
+	@Column(name = "START_DATE(yyyy-MM-dd)")
+	private Date startDate;
+	@Column(name = "END_DATE(yyyy-MM-dd)")
+	private Date endDate;
+	@Column(name = "START_PRICE")
+	private int startPrice;
+	@Column(name = "BUYOUT_PRICE")
+	private int buyoutPrice;
+	@Column(name = "CURRENT_PRICE")
+	private int currentPrice;
+	@Column(name = "CURRENT_BUYER_ID")
+	private int currentBuyerID;
+	@Column(name = "IS_ACTIVE")
+	private boolean isActive;
+
+
+	public Product(int id, int sellerID, String name, String description,
+				   Date startDate, Date endDate, int startPrice, int buyoutPrice,
+				   int currentPrice, int currentBuyerID, boolean isActive) {
+		setId(id);
+		setSellerID(sellerID);
+		setName(name);
+		setDescription(description);
+		setStartDate(startDate);
+		setEndDate(endDate);
+		setStartPrice(startPrice);
+		setBuyoutPrice(buyoutPrice);
+		setCurrentPrice(currentPrice);
 		setCurrentBuyerID(currentBuyerID);
 		setActive(isActive);
-    }
+	}
 
 
 	public int getId() {
