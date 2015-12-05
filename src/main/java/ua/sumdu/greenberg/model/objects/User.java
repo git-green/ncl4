@@ -1,58 +1,84 @@
 package ua.sumdu.greenberg.model.objects;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This is User EJB
+ *
+ * @author GREEN
+ *
+ */
+@Entity
+@Table(name = "USERS")
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	@Column(name = "ID")
+	private int id;
+	@Column(name = "LOGIN")
+	private String login;
+	@Column(name = "PASSWORD")
+	private String password;
+	@Column(name = "NAME")
+	private String name;
+	@Column(name = "SECOND_NAME")
+	private String secondName;
+	@Column(name = "BIRTH")
+	private int age;
+	@Column(name = "EMAIL")
+	private String eMail;
+	@Column(name = "PHONE")
+	private String phone;
 
-public class User {
-	
-	  private int id;
-	  
-	  private String login;
-	  private String password;
-	  private String name;
-	  private String secondName;
-	  private int age;
-	  private String eMail;
-	  private String phone;
-	  private boolean isAdmin;
-	  private boolean isActivated;
-	  private boolean isBanned;
-	  private Date registrationDate;
-		  
-	  public User(int id, String login, String password, String name,
-			  String secondName, int age, String eMail, String phone, String status, Date reistrationDate) {
-		  setId(id);
-		  setLogin(login);
-		  setPassword(password);
-		  setName(name);
-		  setSecondName(secondName);
-		  setAge(age);
-		  setPhone(phone);
-		  setRegistrationDate(reistrationDate);
-		  seteMail(eMail);
-		  switch (status) {
-		  	case "admin" :
-		  		setActivated(true);
-		  		setBanned(false);
-		  		setAdmin(true);
-		  		break;
-		  	case "banned" :
-		  		setActivated(true);
-		  		setBanned(true);
-		  		setAdmin(false);
-		  		break;
-		  	case "unactivated" :
-		  		setActivated(false);
-		  		setBanned(false);
-		  		setAdmin(false);
-		  		break;
-		  	default ://"user"
-		  		setActivated(true);
-		  		setBanned(false);
-		  		setAdmin(false);
-		  }
-	  }
+	private boolean isAdmin;
+
+	private boolean isActivated;
+
+	private boolean isBanned;
+
+	private Date registrationDate;
+
+	public User(int id, String login, String password, String name,
+				String secondName, int age, String eMail, String phone, String status, Date reistrationDate) {
+		setId(id);
+		setLogin(login);
+		setPassword(password);
+		setName(name);
+		setSecondName(secondName);
+		setAge(age);
+		setPhone(phone);
+		setRegistrationDate(reistrationDate);
+		seteMail(eMail);
+		switch (status) {
+			case "admin" :
+				setActivated(true);
+				setBanned(false);
+				setAdmin(true);
+				break;
+			case "banned" :
+				setActivated(true);
+				setBanned(true);
+				setAdmin(false);
+				break;
+			case "unactivated" :
+				setActivated(false);
+				setBanned(false);
+				setAdmin(false);
+				break;
+			default ://"user"
+				setActivated(true);
+				setBanned(false);
+				setAdmin(false);
+		}
+	}
 
 	public String getLogin() {
 		return login;
@@ -149,11 +175,11 @@ public class User {
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
-	
+
 	public static User getUserByID(List<User> list, int ID) {
 		for (User user : list)
 			if (user.getId() == ID)
 				return user;
 		return null;
- 	}
+	}
 }
