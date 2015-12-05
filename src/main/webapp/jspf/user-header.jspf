@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="form-top" align="right">
+        <tr>
+            <% User user = (User) session.getAttribute("user");
+                String userName = "";
+                String userSecondName = "";
+                if (user != null) {
+                    userName = user.getName();
+                    userSecondName = user.getSecondName();
+                }
+            %>
+            <td>Welcome to cabinet, </td>
+            <td> <%= userSecondName%> </td>
+            <td> <%= userName%> </td>
+            <td><a href="javascript:clickBack();" style="text-decoration: none;color: white;"
+                   onmouseover="this.style.color='yellow';"
+                   onmouseout="this.style.color='white';">
+                [<b>Home</b>]</a></td>
+        </tr>
+    </div>
+    <header>
+        <div id="block-logo"><a href="javascript:clickBack();"><img src="images/logo.png" width="80" height="80" alt="Logo"></a></div>
+        <div id="block-contact">
+            tel. XXX XXX XX XX<br>
+            tel. XXX XXX XX XX<br><br><br>
+            group7.3@sumy.ua
+        </div>
+        <div id="block-name-site">
+            <h1 align="center"><strong>AUCTION</strong></h1>
+        </div>
+    </header>
+</div>

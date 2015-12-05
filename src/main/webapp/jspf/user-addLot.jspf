@@ -1,0 +1,24 @@
+<%@ page import="ua.sumdu.greenberg.model.objects.Category" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="ua.sumdu.greenberg.model.objects.Product" %>
+<div class="container-user">
+    <h2> Add lot</h2>
+
+    <% Product product = (Product) request.getAttribute("product"); %>
+    <%! List<Category> categoryList; %>
+    <% if (product != null) { %>
+        <% if ((Boolean) request.getAttribute("step2")) { %>
+            <% if((Boolean) request.getAttribute("step3")) {%>
+                <script>clickNewLot();</script>
+            <% } else { %>
+                <%@include file="../jspf/user-addLotStep3.jspf"%>
+            <% } %>
+        <% } else { %>
+            <%@include file="../jspf/user-addLotStep2.jspf"%>
+        <% } %>
+    <% } else { %>
+        <%@include file="../jspf/user-addLotStep1.jspf"%>
+    <% } %>
+</div>

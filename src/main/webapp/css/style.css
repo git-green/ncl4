@@ -1,0 +1,162 @@
+body {
+    background: #ddd url(../images/background.jpg);
+    color: black;
+    width: 90%;
+    min-width: 800px;
+    position: relative;
+    margin-left: 5%;
+}
+
+#footer {
+    clear: both;
+}
+
+.container {
+    width: 100%;
+    position: relative;
+    background-color: white;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.container-footer {
+    width: 100%;
+    position: relative;
+    background-color: white;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.form-top {
+    line-height: 24px;
+    font-size: 12px;
+    background: black;
+    color: white;
+    z-index: 9999;
+    position: relative;
+    font-family: Cambria, Georgia, serif;
+    box-shadow: 1px 0px 2px rgba(0,0,0,0.2);
+}
+
+#block-logo {
+    width: 100px;
+    float: left;
+    margin-left: 50px;
+}
+
+#block-name-site {
+    width: 100%;
+    height: 100px;
+}
+
+#block-contact {
+    width: 140px;
+    font-size: 13px;
+    float: right;
+}
+
+.container-section-nav {
+    width: 20%;
+    border-right-style: solid;
+    border-right-width: 1px;
+    float: left;
+    margin-left: 10px;
+}
+
+.container-section-lot {
+    margin-left: 22%;
+    width: 78%;
+    min-height: 90%;
+    position: relative;
+}
+
+.container-lots {
+    width: 90%;
+    margin-top: 20px;
+    background-color: white;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: lightgrey;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: lightgrey;
+    border-right-style: solid;
+    border-right-width: 2px;
+    border-right-color: lightgrey;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: lightgrey;
+    border-radius: 10px;
+}
+
+.container-lots:hover {
+    cursor: pointer;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: grey;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: grey;
+    border-right-style: solid;
+    border-right-width: 2px;
+    border-right-color: grey;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: grey;
+    border-radius: 10px;
+}
+
+.container-lots-image{
+    border :1px solid lightgrey;
+    border-radius: 5px;
+    width : 150px;
+    height : 100px;
+    margin: 15px;
+    float: left;
+    overflow : hidden;
+}
+
+.container-lots-price{
+    background-color: white;
+    margin: 40px 10px;
+    width : 100px;
+    height : 40px;
+    font-size: 150%;
+    color : green;
+    float:right;
+}
+
+.container-lots-time {
+    font-size: 80%;
+    float: left;
+}
+
+.container-lots-buyer {
+    font-size: 80%;
+    float: right;
+}
+.container-lots-title {
+    width : 44%;
+    margin-left : 70px;
+    word-wrap: break-word;
+}
+.container-lots-description {
+    height : 80px;
+    width : 44%;
+    margin-left : 70px;
+    word-wrap: break-word;
+}
+
+.container-user {
+    width : 70%;
+    min-height: 50%;
+    margin-left: 25%;
+}

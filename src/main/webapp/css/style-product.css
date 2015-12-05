@@ -1,0 +1,130 @@
+body {
+    background: #ddd url(../images/background.jpg);
+    color: black;
+    width: 90%;
+    min-width: 450px;
+    position: relative;
+}
+
+footer {
+    clear: both;
+}
+
+h4 {
+    background-color: lightgrey;
+}
+
+td {
+    padding-right: 120px;
+}
+
+.container-product {
+    width: 100%;
+    position: relative;
+    background-color: white;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.product-header {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.product-img {
+    width: 400px;
+    height: 300px;
+    float: left;
+    margin: 4% 2% 2% 2%;
+    border: 1px solid lightgrey;
+    border-radius: 20px;
+    overflow : hidden;
+}
+
+.product-buy {
+    float: left;
+    width : 350px;
+    height : 180px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+.product-title {
+    width: 350px;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.product-bet-container {
+    float: left;
+    margin: 5px;
+}
+
+.product-bet-price {
+    width : 120px;
+    float: left;
+}
+
+.product-bet-yourprice {
+    width : 130px;
+    float: left;
+}
+
+.product-bet {
+    margin-top: 13%;
+    margin-left: 30px;
+    float: left;
+}
+
+.product-buy-container {
+    float: left;
+    margin: 5px;
+}
+
+.product-buy-price {
+    margin-left: 120px;
+    width : 130px;
+    float: left;
+}
+
+.product-buy-button {
+    margin-top: 10%;
+    margin-left: 30px;
+    float: left;
+}
+
+.product-status {
+    margin: 5px;
+    float: left;
+}
+
+.product-status-leader {
+
+}
+
+.product-status-closeTime {
+
+}
+
+.product-footer {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.product-description {
+    width: 90%;
+    margin-left: 5%;
+    background-color: white;
+    border-top-style: solid;
+    border-top-width: 1px;
+    word-wrap: break-word;
+}
+
+.product-back {
+    float: right;
+}

@@ -1,0 +1,100 @@
+<aside class="container-section-lot">
+    <header>
+        <div align="center">
+            <% List<Product> products = (List<Product>) request.getAttribute("products");
+                if (products != null) { %>
+            <% for (Product product : products) { %>
+            <div class="container-lots" onClick='location.href="product?id=<%=product.getId()%>"'>
+
+                <div class="container-lots-image">
+                    <% List<Picture> pictures = (List<Picture>) request.getAttribute("pictures"); %>
+                    <% String image = "./images/no_image.png"; %>
+                    <% if (pictures != null) {
+                        for (Picture picture : pictures) {
+                            if (picture.getProductID() == product.getId()) {
+                                image = picture.getURL();%>
+                    <% }
+                    }
+                    } %>
+                    <img src="<%= image%>" alt="No photo" height="100%">
+                </div>
+                <div class="container-lots-price">
+                    <% if (product.getCurrentPrice() != 0) { %>
+                        <%=product.getCurrentPrice()%> $
+                    <% } else {%>
+                        <%=product.getStartPrice()%> $
+                    <% } %>
+                </div>
+                <header>
+                    <div class="container-lots-title" title="<%= product.getName()%>">
+                        <% if (product.getName().length() >= 20) { %>
+                            <b><%= product.getName().substring(0, 20)%></b>
+                        <% } else { %>
+                            <b><%= product.getName()%></b>
+                        <% } %>
+                    </div>
+                </header>
+                <assaid>
+                    <div class="container-lots-description" align="left">
+                        <% if (product.getDescription().length() >= 85) { %>
+                            <%= product.getDescription().substring(0, 85)%>...
+                        <% } else { %>
+                            <%= product.getDescription()%>
+                        <% } %>
+                    </div>
+                </assaid>
+                <footer>
+                    <div class="container-lots-time">
+                        <% SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm");%>
+                        Close : <%= dateFormat.format(product.getEndDate()) %>
+                    </div>
+                    <div class="container-lots-buyer">
+                        <% if (product.getCurrentBuyerID() != 0) {
+                            List<User> users = (List<User>) request.getAttribute("users");
+                            String nameBuyer = null;
+                            if (users != null) {%>
+                        <% for (User userBuyer : users) {
+                            if (product.getCurrentBuyerID() == userBuyer.getId())
+                                nameBuyer = userBuyer.getLogin();
+                        }%>
+                        <%=nameBuyer%>
+                        <% }
+                        } %>
+                    </div>
+                </footer>
+                <br><br>
+            </div>
+
+            <% } %>
+            <% } %>
+        </div>
+    </header>
+    <footer>
+        <div align="center">
+            <% int categoryID = (Integer) request.getAttribute("categoryID");%>
+            <% if (request.getAttribute("countProduct") != null && request.getAttribute("countFind") != null) { %>
+                <% int countProduct = (Integer) request.getAttribute("countProduct");%>
+                <% int countFind = (Integer) request.getAttribute("countFind");%>
+                <% int minPrice = (Integer) request.getAttribute("minPrice"); %>
+                <% int maxPrice = (Integer) request.getAttribute("maxPrice"); %>
+
+                <% if (countProduct > 1) { %>
+                    <% int countPage = (int) Math.ceil((double)countProduct/10); %>
+                        <% if (countPage > 1) {%>
+                            <% for(int i = 1; i <= countPage; i++) { %>
+                                <a href="index?category=<%=categoryID%>&page=<%=i%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>" style="text-decoration: none;"> <%= i%> </a>
+                            <% } %>
+                        <% } %>
+                <% } else if (countFind > 1) { %>
+                    <% String textFind = (String) request.getAttribute("textFind"); %>
+                    <% int countPage = (int) Math.ceil((double)countFind/10); %>
+                        <% if (countPage > 1) {%>
+                             <% for(int i = 1; i <= countPage; i++) { %>
+                                <a href="index?category=find&text=<%= textFind%>&page=<%= i%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>" style="text-decoration: none;"> <%= i%> </a>
+                             <% } %>
+                        <% } %>
+                <% } %>
+            <% } %>
+        </div>
+    </footer>
+</aside>

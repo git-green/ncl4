@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="form-top" align="right">
+
+        <tr>
+            <% User user = (User) session.getAttribute("user");
+                String userName = "";
+                String userSecondName = "";
+                boolean userStatus = false;
+                if (user != null) {
+                    userName = user.getName();
+                    userSecondName = user.getSecondName();
+                    userStatus = user.isAdmin();
+                }
+            %>
+
+            <script>var user_name = '<%= userName %>';
+            var user_second_name = '<%= userSecondName %>';
+            var userStatus = '<%= userStatus%>'.toString();
+            createForm(user_name, user_second_name, userStatus);</script>
+
+        </tr>
+    </div>
+    <header>
+        <div id="block-logo"><a href="index"><img src="images/logo.png" width="80" height="80" alt="Logo"></a></div>
+        <div id="block-contact">
+            tel. XXX XXX XX XX<br>
+            tel. XXX XXX XX XX<br><br><br>
+            group7.3@sumy.ua
+        </div>
+        <div id="block-name-site">
+            <h1 align="center"><strong>AUCTION</strong></h1>
+        </div>
+    </header>
+</div>

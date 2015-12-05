@@ -1,0 +1,15 @@
+<section class="container-section-nav">
+    <div align="center">
+        <br><br>
+        <ul class = "topnav">
+            <li><a href="#" onClick="clickInformation();">Information</a></li>
+            <li><a href="#" onClick="clickChangeUserData();">Change user data</a></li>
+            <li><a href="#" onClick="clickAddLotPage();">Add lot</a></li>
+            <li><a href="#" onClick="clickShowLotsPurchasedPage();">Show lots purchased</a></li>
+            <li><a href="#" onClick="clickFollowingProductsPage();">Following products</a></li>
+            <li><a href="#" onClick="clickSoldGoodsPage();">Sold goods</a></li>
+            <li><a href="#" onClick="clickGoodsForSalePage();">Goods for sale</a></li>
+        </ul>
+        <br>
+    </div>
+</section>

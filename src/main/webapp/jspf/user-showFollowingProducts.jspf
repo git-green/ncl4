@@ -1,0 +1,76 @@
+<%@ page import="ua.sumdu.greenberg.model.objects.Picture" %>
+<div class="container-user">
+    <h2>Following products </h2>
+
+    <div align="center">
+        <% List<Product> followingList = (List<Product>) request.getAttribute("followingList");
+            if (followingList != null) { %>
+
+        <% for (Product followingProduct : followingList) { %>
+        <div class="container-lots" onClick='location.href="product?id=<%=followingProduct.getId()%>"'>
+
+            <div class="container-lots-image">
+                <% List<Picture> pictures = (List<Picture>) request.getAttribute("pictures"); %>
+                <% String image = "./images/no_image.png"; %>
+                <% if (pictures != null) {
+                    for (Picture picture : pictures) {
+                        if (picture.getProductID() == followingProduct.getId()) {
+                            image = picture.getURL();%>
+                <% }
+                }
+                } %>
+                <img src="<%= image%>" alt="No photo" height="100%">
+
+
+            </div>
+            <div class="container-lots-price">
+                <% if (followingProduct.getCurrentPrice() != 0) { %>
+                <%=followingProduct.getCurrentPrice()%> $
+                <% } else {%>
+                <%=followingProduct.getStartPrice()%> $
+                <% } %>
+            </div>
+            <header>
+                <div class="container-lots-title" title="<%= followingProduct.getName()%>">
+                    <% if (followingProduct.getName().length() >= 20) { %>
+                        <b><%= followingProduct.getName().substring(0, 20)%></b>
+                    <% } else { %>
+                        <b><%= followingProduct.getName()%></b>
+                    <% } %>
+                </div>
+            </header>
+            <assaid>
+                <div class="container-lots-description" align="left">
+                    <% if (followingProduct.getDescription().length() >= 85) { %>
+                        <%= followingProduct.getDescription().substring(0, 85)%>...
+                    <% } else { %>
+                        <%= followingProduct.getDescription()%>
+                    <% } %>
+                </div>
+            </assaid>
+            <footer>
+                <div class="container-lots-time">
+                    <% SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm");%>
+                    Close : <%= dateFormat.format(followingProduct.getEndDate()) %>
+                </div>
+                <div class="container-lots-buyer">
+                    <% if (followingProduct.getCurrentBuyerID() != 0) {
+                        List<User> users = (List<User>) request.getAttribute("users");
+                        String nameBuyer = null;
+                        if (users != null) {%>
+                    <% for (User userBuyer : users) {
+                        if (followingProduct.getCurrentBuyerID() == userBuyer.getId())
+                            nameBuyer = userBuyer.getLogin();
+                    }%>
+                    <%=nameBuyer%>
+                    <% }
+                    } %>
+                </div>
+            </footer>
+            <br><br>
+        </div>
+
+        <% } %>
+        <% } %>
+    </div>
+</div>
