@@ -1,17 +1,49 @@
 package ua.sumdu.greenberg.model.objects;
 
-public class Category {
+import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+/**
+ * This is Category EJB
+ *
+ * @author GREEN
+ *
+ */
+@Entity
+@Table(name = "CATEGORIES")
+public class Category implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	@Column(name = "ID")
 	private int id;
+	@Column(name = "PARENT_ID")
 	private int parentID;
+	@Column(name = "NAME")
 	private String name;
 
+	/**
+	 * This is constructor for Category
+	 *
+	 * @param id = id
+	 * @param parentID = parentID
+	 * @param name = name
+	 */
 	public Category(int id, int parentID, String name) {
 		setId(id);
 		setParentID(parentID);
 		setName(name);
 	}
 
+	/**
+	 * This is constructor for Category
+	 *
+	 * @param id = id
+	 * @param name = name
+	 */
 	public Category(int id, String name) {
 		setId(id);
 		setParentID(0);
