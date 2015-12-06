@@ -26,7 +26,9 @@ INSERT INTO USERS(
     EMAIL,
     PHONE,
     REGISTRATION_DATE,
-    STATUS
+    STATUS,
+    IS_ACTIVE,
+    IS_BANED
 )VALUES(
     USER_ID_S.NEXTVAL,
     'admin',
@@ -37,7 +39,9 @@ INSERT INTO USERS(
     'admin@gmail.com',
     '00000000',
     SYSDATE,
-    'admin'
+    'admin',
+    'active',
+    'unbanned'
 );
 
 INSERT INTO USERS(
@@ -50,7 +54,9 @@ INSERT INTO USERS(
     EMAIL,
     PHONE,
     REGISTRATION_DATE,
-    STATUS
+    STATUS,
+    IS_ACTIVE,
+    IS_BANED
 )VALUES(
     USER_ID_S.NEXTVAL,
     'green',
@@ -61,7 +67,9 @@ INSERT INTO USERS(
     'green@gmail.com',
     '123456789',
     SYSDATE,
-    'admin'
+    'admin',
+    'active',
+    'unbanned'
 );
 
 INSERT INTO USERS(
@@ -74,7 +82,9 @@ INSERT INTO USERS(
     EMAIL,
     PHONE,
     REGISTRATION_DATE,
-    STATUS
+    STATUS,
+    IS_ACTIVE,
+    IS_BANED
 )VALUES(
     USER_ID_S.NEXTVAL,
     '123',
@@ -85,7 +95,9 @@ INSERT INTO USERS(
     'alex.alex@gmail.com',
     '987654321',
     SYSDATE,
-    'user'
+    'user',
+    'active',
+    'unbanned'
 );
 
 INSERT INTO CATEGORIES(

@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "USERS")
 @NamedNativeQueries({
-		@NamedNativeQuery(name="AUTHORIZATION", query="SELECT ID, LOGIN, PASSWORD, NAME, SECOND_NAME, EMAIL, PHONE, STATUS, REGISTRATION_DATE, TRUNC((SYSDATE - BIRTH)/365) AS \"AGE\" FROM USERS WHERE LOGIN = ? AND PASSWORD = ?", resultClass = User.class),
+		@NamedNativeQuery(name="AUTHORIZATION", query="SELECT ID, LOGIN, PASSWORD, NAME, SECOND_NAME, EMAIL, PHONE, STATUS, REGISTRATION_DATE, TRUNC((SYSDATE - BIRTH)/365) AS \"AGE\", IS_ACTIVE, IS_BANED FROM USERS WHERE LOGIN = ? AND PASSWORD = ?", resultClass = User.class),
 		@NamedNativeQuery(name="AUTHORIZATION_BY_EMAIL", query="SELECT ID, LOGIN, PASSWORD, NAME, SECOND_NAME, EMAIL, PHONE, STATUS, REGISTRATION_DATE, TRUNC((SYSDATE - BIRTH)/365) AS \"AGE\" FROM USERS WHERE EMAIL = LOWER(?)", resultClass = User.class)
 })
 public class User implements Serializable {
@@ -38,6 +38,12 @@ public class User implements Serializable {
 	private String eMail;
 	@Column(name = "PHONE")
 	private String phone;
+	@Column(name = "STATUS")
+	private String status;
+	@Column(name = "IS_ACTIVE")
+	private String active;
+	@Column(name = "IS_BANED")
+	private String baned;
 
 	private boolean isAdmin;
 
@@ -133,12 +139,15 @@ public class User implements Serializable {
 	}
 
 	public boolean isAdmin() {
-		return isAdmin;
+		boolean stAdmin = false;
+		if (getStatus().equals("admin")) stAdmin = true;
+		else if (getStatus().equals("user")) stAdmin = false;
+		return stAdmin;
 	}
 
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
+//	public void setAdmin(boolean isAdmin) {
+//		this.isAdmin = isAdmin;
+//	}
 
 	public String getSecondName() {
 		return secondName;
@@ -156,21 +165,51 @@ public class User implements Serializable {
 		this.age = age;
 	}
 
-	public boolean isActivated() {
-		return isActivated;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setActivated(boolean isActivated) {
-		this.isActivated = isActivated;
+	public void setStatus(String status) {
+		this.status = status;
 	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
+	}
+
+	public String getBaned() {
+		return baned;
+	}
+
+	public void setBaned(String baned) {
+		this.baned = baned;
+	}
+
+	public boolean isActivated() {
+		boolean stActive = false;
+		if (getActive().equals("active")) stActive = true;
+		else if (getActive().equals("unactivated")) stActive = false;
+		return stActive;
+	}
+
+//	public void setActivated(boolean isActivated) {
+//		this.isActivated = isActivated;
+//	}
 
 	public boolean isBanned() {
-		return isBanned;
+		boolean stBaned = false;
+		if (getBaned().equals("unbanned")) stBaned = false;
+		else if (getBaned().equals("baned")) stBaned = true;
+		return stBaned;
 	}
 
-	public void setBanned(boolean isBanned) {
-		this.isBanned = isBanned;
-	}
+//	public void setBanned(boolean isBanned) {
+//		this.isBanned = isBanned;
+//	}
 
 	public Date getRegistrationDate() {
 		return registrationDate;
