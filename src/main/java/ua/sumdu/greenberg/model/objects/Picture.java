@@ -20,6 +20,8 @@ public class Picture implements Serializable{
 	@Column(name = "NAME")
 	private String URL;
 
+	public Picture(){}
+
 	/**
 	 * This is constructor for Picture
 	 *

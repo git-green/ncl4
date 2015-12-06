@@ -25,6 +25,9 @@ public class Category implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 
+
+	public Category(){}
+
 	/**
 	 * This is constructor for Category
 	 *

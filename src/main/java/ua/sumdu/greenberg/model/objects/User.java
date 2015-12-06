@@ -15,6 +15,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "USERS")
+@NamedNativeQueries({
+		@NamedNativeQuery(name="AUTHORIZATION", query="SELECT ID, LOGIN, PASSWORD, NAME, SECOND_NAME, EMAIL, PHONE, STATUS, REGISTRATION_DATE, TRUNC((SYSDATE - BIRTH)/365) AS \"AGE\" FROM USERS WHERE LOGIN = ? AND PASSWORD = ?", resultClass = User.class),
+		@NamedNativeQuery(name="AUTHORIZATION_BY_EMAIL", query="SELECT ID, LOGIN, PASSWORD, NAME, SECOND_NAME, EMAIL, PHONE, STATUS, REGISTRATION_DATE, TRUNC((SYSDATE - BIRTH)/365) AS \"AGE\" FROM USERS WHERE EMAIL = LOWER(?)", resultClass = User.class)
+})
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -44,9 +48,11 @@ public class User implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date registrationDate;
 
+	public User(){}
 	public User(int id, String login, String password, String name,
 				String secondName, int age, String eMail, String phone, String status, Date reistrationDate) {
-		setId(id);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+/*		setId(id);
 		setLogin(login);
 		setPassword(password);
 		setName(name);
@@ -76,7 +82,7 @@ public class User implements Serializable {
 				setBanned(false);
 				setAdmin(false);
 		}
-	}
+*/	}
 
 	public String getLogin() {
 		return login;

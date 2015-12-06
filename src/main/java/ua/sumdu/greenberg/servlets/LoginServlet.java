@@ -4,6 +4,9 @@ import org.apache.log4j.Logger;
 import ua.sumdu.greenberg.model.OracleDataBase;
 import ua.sumdu.greenberg.model.objects.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +22,8 @@ import java.io.PrintWriter;
  */
 public class LoginServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(LoginServlet.class);
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaAuction");
+    EntityManager em = emf.createEntityManager();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/xml");
@@ -26,7 +31,13 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         if ("login".equals(request.getParameter("action"))) {
             log.info("Click login");
-            User user = OracleDataBase.getInstance().authorization(request.getParameter("login"), request.getParameter("password"));
+//            User user = OracleDataBase.getInstance().authorization(request.getParameter("login"), request.getParameter("password"));
+            User user = (User) em.createNamedQuery("AUTHORIZATION").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
+            System.out.println("********************* USER      = " + user);
+            System.out.println("********************* NAME      = " + user.getName());
+            System.out.println("********************* isBaned   = " + user.isBanned());
+            System.out.println("********************* isActive  = " + user.isActivated());
+            System.out.println("********************* Status    = " + user.isAdmin());
             log.info("USER - " + user);
             if (user != null) {
                 if (!user.isBanned()) {

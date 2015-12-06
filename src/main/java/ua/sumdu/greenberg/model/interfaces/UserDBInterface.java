@@ -21,7 +21,7 @@ public interface UserDBInterface {
 	
 	public boolean isEmailFree(String newEmail);
 	
-	public User authorization(String login, String password);
+//	public User authorization(String login, String password);
 
 	public User authorizationByEmail(String eMail, String password);
 	

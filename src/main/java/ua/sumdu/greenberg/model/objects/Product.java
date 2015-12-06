@@ -41,7 +41,7 @@ public class Product implements Serializable {
 	@Column(name = "IS_ACTIVE")
 	private boolean isActive;
 
-
+	public Product(){}
 	public Product(int id, int sellerID, String name, String description,
 				   Date startDate, Date endDate, int startPrice, int buyoutPrice,
 				   int currentPrice, int currentBuyerID, boolean isActive) {
