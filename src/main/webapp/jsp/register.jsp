@@ -78,7 +78,7 @@
             <tr>
 	            <td></td>
 	            <td>
-					<img src="/WebApplication/jcaptcha.jpg" id="captchaImage" onClick="refreshCaptcha();">
+					<img src="/AuctionEJB/jcaptcha.jpg" id="captchaImage" onClick="refreshCaptcha();">
 	            </td>
 	            <td>
 	            	Captcha:<br>
