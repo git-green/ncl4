@@ -1,7 +1,6 @@
 package ua.sumdu.greenberg.servlets;
 
 import org.apache.log4j.Logger;
-//import ua.sumdu.greenberg.model.OracleDataBase;
 import ua.sumdu.greenberg.model.objects.User;
 
 import javax.persistence.EntityManager;
@@ -32,14 +31,6 @@ public class LoginServlet extends HttpServlet {
         if ("login".equals(request.getParameter("action"))) {
             log.info("Click login");
             User user = (User) em.createNamedQuery("AUTHORIZATION").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
-            System.out.println("********************* USER      = " + user);
-            System.out.println("********************* ID        = " + user.getId());
-            System.out.println("********************* NAME      = " + user.getName());
-            System.out.println("********************* isBaned   = " + user.isBanned());
-            System.out.println("********************* isActive  = " + user.isActivated());
-            System.out.println("********************* Status    = " + user.isAdmin());
-            System.out.println("********************* Age       = " + user.getAge());
-            System.out.println("********************* Data      = " + user.getRegistrationDate());
             log.info("USER - " + user);
             if (user != null) {
                 if (!user.isBanned()) {
