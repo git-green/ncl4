@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "USERS")
 @NamedNativeQueries({
 		@NamedNativeQuery(name="AUTHORIZATION", query="SELECT ID, LOGIN, PASSWORD, NAME, SECOND_NAME, EMAIL, PHONE, STATUS, REGISTRATION_DATE, TRUNC((SYSDATE - BIRTH)/365) AS \"AGE\", IS_ACTIVE, IS_BANED FROM USERS WHERE LOGIN = ? AND PASSWORD = ?", resultClass = User.class),
-		@NamedNativeQuery(name="AUTHORIZATION_BY_EMAIL", query="SELECT ID, LOGIN, PASSWORD, NAME, SECOND_NAME, EMAIL, PHONE, STATUS, REGISTRATION_DATE, TRUNC((SYSDATE - BIRTH)/365) AS \"AGE\" FROM USERS WHERE EMAIL = LOWER(?)", resultClass = User.class)
+		@NamedNativeQuery(name="AUTHORIZATION_BY_EMAIL", query="SELECT ID, LOGIN, PASSWORD, NAME, SECOND_NAME, EMAIL, PHONE, STATUS, REGISTRATION_DATE, TRUNC((SYSDATE - BIRTH)/365) AS \"AGE\", IS_ACTIVE, IS_BANED FROM USERS WHERE EMAIL = ? AND PASSWORD = ?", resultClass = User.class)
 })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +32,9 @@ public class User implements Serializable {
 	private String name;
 	@Column(name = "SECOND_NAME")
 	private String secondName;
+	@Temporal(TemporalType.DATE)
 	@Column(name = "BIRTH")
+	private Date birth;
 	private int age;
 	@Column(name = "EMAIL")
 	private String eMail;
@@ -51,7 +53,8 @@ public class User implements Serializable {
 
 	private boolean isBanned;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
+	@Column(name = "REGISTRATION_DATE")
 	private Date registrationDate;
 
 	public User(){}
@@ -155,6 +158,14 @@ public class User implements Serializable {
 
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
+	}
+
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
 	}
 
 	public int getAge() {

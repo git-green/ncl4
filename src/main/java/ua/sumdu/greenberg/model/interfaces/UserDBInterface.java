@@ -23,7 +23,7 @@ public interface UserDBInterface {
 	
 //	public User authorization(String login, String password);
 
-	public User authorizationByEmail(String eMail, String password);
+//	public User authorizationByEmail(String eMail, String password);
 	
 	public boolean isAdmin(int id);
 	

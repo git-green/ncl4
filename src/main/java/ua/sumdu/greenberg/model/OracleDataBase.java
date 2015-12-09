@@ -196,12 +196,12 @@ public class OracleDataBase implements UserDBInterface, PicturesDBInterface,
     }
 
 
-    /**
-     * Check login and password and do authorization.
-     *
-     * @return id of authorizated user. If login or password is wrong - method returns -1.
-     */
-    public User authorization(String login, String password) {
+//    /**
+//     * Check login and password and do authorization.
+//     *
+//     * @return id of authorizated user. If login or password is wrong - method returns -1.
+//     */
+ /*   public User authorization(String login, String password) {
     	log.info("Method authorization starts.....");
     	User user = null;
     	initConnection();
@@ -230,35 +230,35 @@ public class OracleDataBase implements UserDBInterface, PicturesDBInterface,
         return user;
     }
 
-
-    public User authorizationByEmail(String eMail, String password) {
-    	log.info("Method authorizationByEmail starts.....");
-    	User user = null;
-    	initConnection();
-        try (PreparedStatement preparedStatement = conn.prepareStatement(Queries.AUTHORIZATION_BY_EMAIL)) {
-        	preparedStatement.setString(1, eMail);
-            try(ResultSet rs = preparedStatement.executeQuery()){
-	            if (rs.next()) {
-		            int id = rs.getInt("ID");
-		            String name = rs.getString("NAME");
-		            String secondName = rs.getString("SECOND_NAME");
-		            String login = rs.getString("LOGIN");
-		            String phone = rs.getString("PHONE");
-		            String status = rs.getString("STATUS");
-		            int age = rs.getInt("AGE");
-		            Date regDate = addTimeZoneDif(rs.getTimestamp("REGISTRATION_DATE"));
-		            
-		            if (rs.getString("PASSWORD").equals(password))
-		            		user = new User(id, login, password, name, secondName, age, eMail, phone, status, regDate);
-	            }
-            }
-        } catch (SQLException e) {
-            log.error("SQLException in authorizationByEmail()", e);
-        } finally {
-        	closeConnection();
-        }
-        return user;
-    }
+*/
+//    public User authorizationByEmail(String eMail, String password) {
+//    	log.info("Method authorizationByEmail starts.....");
+//    	User user = null;
+//    	initConnection();
+//        try (PreparedStatement preparedStatement = conn.prepareStatement(Queries.AUTHORIZATION_BY_EMAIL)) {
+//        	preparedStatement.setString(1, eMail);
+//            try(ResultSet rs = preparedStatement.executeQuery()){
+//	            if (rs.next()) {
+//		            int id = rs.getInt("ID");
+//		            String name = rs.getString("NAME");
+//		            String secondName = rs.getString("SECOND_NAME");
+//		            String login = rs.getString("LOGIN");
+//		            String phone = rs.getString("PHONE");
+//		            String status = rs.getString("STATUS");
+//		            int age = rs.getInt("AGE");
+//		            Date regDate = addTimeZoneDif(rs.getTimestamp("REGISTRATION_DATE"));
+//
+//		            if (rs.getString("PASSWORD").equals(password))
+//		            		user = new User(id, login, password, name, secondName, age, eMail, phone, status, regDate);
+//	            }
+//            }
+//        } catch (SQLException e) {
+//            log.error("SQLException in authorizationByEmail()", e);
+//        } finally {
+//        	closeConnection();
+//        }
+//        return user;
+//    }
 
 
     public boolean isAdmin(int userID) {

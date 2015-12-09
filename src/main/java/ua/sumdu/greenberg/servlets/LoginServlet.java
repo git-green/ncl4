@@ -1,7 +1,7 @@
 package ua.sumdu.greenberg.servlets;
 
 import org.apache.log4j.Logger;
-import ua.sumdu.greenberg.model.OracleDataBase;
+//import ua.sumdu.greenberg.model.OracleDataBase;
 import ua.sumdu.greenberg.model.objects.User;
 
 import javax.persistence.EntityManager;
@@ -31,13 +31,15 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         if ("login".equals(request.getParameter("action"))) {
             log.info("Click login");
-//            User user = OracleDataBase.getInstance().authorization(request.getParameter("login"), request.getParameter("password"));
             User user = (User) em.createNamedQuery("AUTHORIZATION").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
             System.out.println("********************* USER      = " + user);
+            System.out.println("********************* ID        = " + user.getId());
             System.out.println("********************* NAME      = " + user.getName());
             System.out.println("********************* isBaned   = " + user.isBanned());
             System.out.println("********************* isActive  = " + user.isActivated());
             System.out.println("********************* Status    = " + user.isAdmin());
+            System.out.println("********************* Age       = " + user.getAge());
+            System.out.println("********************* Data      = " + user.getRegistrationDate());
             log.info("USER - " + user);
             if (user != null) {
                 if (!user.isBanned()) {
@@ -54,10 +56,10 @@ public class LoginServlet extends HttpServlet {
                 sendResponse(response, "<result>Login incorrect.</result>");
             }
         } else if ("loginEmail".equals(request.getParameter("action"))) {
-            User res = OracleDataBase.getInstance().authorizationByEmail(request.getParameter("login"), request.getParameter("password"));
+            User res = (User) em.createNamedQuery("AUTHORIZATION_BY_EMAIL").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
             if (res != null) {
                 if (!res.isBanned()) {
-                    request.getSession().setAttribute("user", OracleDataBase.getInstance().getUser(res.getId()));
+                    request.getSession().setAttribute("user", res);
                     sendResponse(response, "<result>OK</result>");
                 } else {
                     sendResponse(response, "<result>You are banned</result>");
