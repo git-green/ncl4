@@ -41,17 +41,17 @@ public class Category implements Serializable {
 		setName(name);
 	}
 
-//	/**
-//	 * This is constructor for Category
-//	 *
-//	 * @param id = id
-//	 * @param name = name
-//	 */
-//	public Category(int id, String name) {
-//		setId(id);
-//		setParentID(0);
-//		setName(name);
-//	}
+	/**
+	 * This is constructor for Category
+	 *
+	 * @param id = id
+	 * @param name = name
+	 */
+	public Category(int id, String name) {
+		setId(id);
+		setParentID(0);
+		setName(name);
+	}
 
 	public int getId() {
 		return id;
