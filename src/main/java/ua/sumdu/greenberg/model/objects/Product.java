@@ -13,6 +13,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "PRODUCTS")
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "GET_ALL_PRODUCTS", query = "SELECT * FROM PRODUCTS WHERE IS_ACTIVE = 'active'", resultClass = Product.class)
+})
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -24,11 +27,11 @@ public class Product implements Serializable {
 	private String name;
 	@Column(name = "DESCRIPTION")
 	private String description;
-	@Column(name = "START_DATE(yyyy-MM-dd)")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "START_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date startDate;
-	@Column(name = "END_DATE(yyyy-MM-dd)")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "END_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date endDate;
 	@Column(name = "START_PRICE")
 	private int startPrice;
@@ -39,12 +42,12 @@ public class Product implements Serializable {
 	@Column(name = "CURRENT_BUYER_ID")
 	private int currentBuyerID;
 	@Column(name = "IS_ACTIVE")
-	private boolean isActive;
+	private String isActive;
 
 	public Product(){}
 	public Product(int id, int sellerID, String name, String description,
 				   Date startDate, Date endDate, int startPrice, int buyoutPrice,
-				   int currentPrice, int currentBuyerID, boolean isActive) {
+				   int currentPrice, int currentBuyerID, String isActive) {
 		setId(id);
 		setSellerID(sellerID);
 		setName(name);
@@ -130,11 +133,11 @@ public class Product implements Serializable {
 
 
 	public boolean isActive() {
-		return isActive;
+		return (isActive.equals("active"))? true : false;
 	}
 
 
-	public void setActive(boolean isActive) {
+	public void setActive(String isActive) {
 		this.isActive = isActive;
 	}
 

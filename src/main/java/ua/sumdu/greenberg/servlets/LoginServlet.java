@@ -21,8 +21,7 @@ import java.io.PrintWriter;
  */
 public class LoginServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(LoginServlet.class);
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaAuction");
-    EntityManager em = emf.createEntityManager();
+    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/xml");

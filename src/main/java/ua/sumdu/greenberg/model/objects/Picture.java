@@ -12,12 +12,15 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "PICTURES")
-public class Picture implements Serializable{
+@NamedNativeQueries({
+		@NamedNativeQuery(name="GET_ALL_PICTURES", query="SELECT * FROM PICTURES", resultClass = Picture.class)
+})
+public class Picture implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "PRODUCT_ID")
 	private int productID;
-	@Column(name = "NAME")
+	@Column(name = "URL")
 	private String URL;
 
 	public Picture(){}
@@ -29,8 +32,8 @@ public class Picture implements Serializable{
 	 * @param URL = picture URL
 	 */
 	public Picture(int productID, String URL) {
-		this.setProductID(productID);
-		this.setURL(URL);
+		this.productID = productID;
+		this.URL = URL;
 	}
 
 	public int getProductID() {
@@ -46,7 +49,7 @@ public class Picture implements Serializable{
 	}
 
 	public void setURL(String uRL) {
-		URL = uRL;
+		this.URL = uRL;
 	}
 
 }

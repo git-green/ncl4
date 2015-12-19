@@ -2,10 +2,7 @@ package ua.sumdu.greenberg.model.objects;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * This is Category EJB
@@ -15,6 +12,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "CATEGORIES")
+@NamedNativeQueries({
+		@NamedNativeQuery(name="GET_ALL_CATEGORIES", query="SELECT * FROM CATEGORIES", resultClass = Category.class)
+})
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -41,17 +41,17 @@ public class Category implements Serializable {
 		setName(name);
 	}
 
-	/**
-	 * This is constructor for Category
-	 *
-	 * @param id = id
-	 * @param name = name
-	 */
-	public Category(int id, String name) {
-		setId(id);
-		setParentID(0);
-		setName(name);
-	}
+//	/**
+//	 * This is constructor for Category
+//	 *
+//	 * @param id = id
+//	 * @param name = name
+//	 */
+//	public Category(int id, String name) {
+//		setId(id);
+//		setParentID(0);
+//		setName(name);
+//	}
 
 	public int getId() {
 		return id;

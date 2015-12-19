@@ -2,13 +2,15 @@ package ua.sumdu.greenberg.servlets;
 
 import org.apache.log4j.Logger;
 
-import ua.sumdu.greenberg.model.OracleDataBase;
-import ua.sumdu.greenberg.model.ServerTimerTask;
+//import ua.sumdu.greenberg.model.OracleDataBase;
+//import ua.sumdu.greenberg.model.ServerTimerTask;
 import ua.sumdu.greenberg.model.objects.Category;
 import ua.sumdu.greenberg.model.objects.Picture;
 import ua.sumdu.greenberg.model.objects.Product;
 import ua.sumdu.greenberg.model.objects.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -27,6 +29,7 @@ import java.util.List;
  */
 public class IndexServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(IndexServlet.class);
+    EntityManager em = null;
     private List<Category> categoryList;
     private List<Product> products;
     private List<Picture> pictures;
@@ -41,7 +44,8 @@ public class IndexServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         log.info("Init UserServlet");
-        ServerTimerTask.run();
+        em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
+//        ServerTimerTask.run();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -83,62 +87,67 @@ public class IndexServlet extends HttpServlet {
         textFind = null;
         minPrice = 0;
         maxPrice = 0;
-        if (request.getParameter("category") != null && request.getParameter("category") != "" &&
-                request.getParameter("category").length() > 0) {
-            if ("find".equals(request.getParameter("category"))) {
-                if (request.getParameter("text") != null && request.getParameter("text") != "" &&
-                        request.getParameter("text").length() >= 2) {
-                    if (request.getParameter("page") != null && request.getParameter("page") != "" &&
-                            request.getParameter("page").length() > 0) {
-                        if (request.getParameter("minPrice") != null && request.getParameter("minPrice") != "" &&
-                                request.getParameter("minPrice").length() > 0
-                                && request.getParameter("maxPrice") != null && request.getParameter("maxPrice") != "" &&
-                                request.getParameter("maxPrice").length() > 0) {
-                            minPrice = Integer.parseInt(request.getParameter("minPrice"));
-                            maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
-                            products = OracleDataBase.getInstance().getProductsFind(Integer.parseInt(request.getParameter("page")),
-                                    minPrice, maxPrice, request.getParameter("text"));
-                        } else
-                            products = OracleDataBase.getInstance().getProductsFind(Integer.parseInt(request.getParameter("page")), 0, 0, request.getParameter("text"));
-                    } else {
-                        products = OracleDataBase.getInstance().getProductsFind(1, 0, 0, request.getParameter("text"));
-                    }
-                    countFind = OracleDataBase.getInstance().getCountFind(minPrice, maxPrice, request.getParameter("text"));
-                    textFind = request.getParameter("text");
-                }
-
-            } else {
-                if (request.getParameter("page") != null && request.getParameter("page") != ""
-                        && request.getParameter("page").length() > 0) {
-                    if (request.getParameter("minPrice") != null && request.getParameter("minPrice") != ""
-                            && request.getParameter("minPrice").length() > 0
-                            && request.getParameter("maxPrice") != null && request.getParameter("maxPrice") != ""
-                            && request.getParameter("maxPrice").length() > 0) {
-                        minPrice = Integer.parseInt(request.getParameter("minPrice"));
-                        maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
-                        products = OracleDataBase.getInstance().getProducts(Integer.parseInt(request.getParameter("page")),
-                                Integer.parseInt(request.getParameter("category")), minPrice, maxPrice);
-                    } else
-                        products = OracleDataBase.getInstance().getProducts(Integer.parseInt(request.getParameter("page")),
-                                Integer.parseInt(request.getParameter("category")), 0, 0);
-                } else {
-                    products = OracleDataBase.getInstance().getProducts(1, Integer.parseInt(request.getParameter("category")), 0, 0);
-                }
-                countProduct = OracleDataBase.getInstance().getCount(Integer.parseInt(request.getParameter("category")), minPrice, maxPrice);
-                categoryID = Integer.parseInt(request.getParameter("category"));
-            }
-        } else {
+//        if (request.getParameter("category") != null && request.getParameter("category") != "" &&
+//                request.getParameter("category").length() > 0) {
+//            if ("find".equals(request.getParameter("category"))) {
+//                if (request.getParameter("text") != null && request.getParameter("text") != "" &&
+//                        request.getParameter("text").length() >= 2) {
+//                    if (request.getParameter("page") != null && request.getParameter("page") != "" &&
+//                            request.getParameter("page").length() > 0) {
+//                        if (request.getParameter("minPrice") != null && request.getParameter("minPrice") != "" &&
+//                                request.getParameter("minPrice").length() > 0
+//                                && request.getParameter("maxPrice") != null && request.getParameter("maxPrice") != "" &&
+//                                request.getParameter("maxPrice").length() > 0) {
+//                            minPrice = Integer.parseInt(request.getParameter("minPrice"));
+//                            maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
+//                            products = OracleDataBase.getInstance().getProductsFind(Integer.parseInt(request.getParameter("page")),
+//                                    minPrice, maxPrice, request.getParameter("text"));
+//                        } else
+//                            products = OracleDataBase.getInstance().getProductsFind(Integer.parseInt(request.getParameter("page")), 0, 0, request.getParameter("text"));
+//                    } else {
+//                        products = OracleDataBase.getInstance().getProductsFind(1, 0, 0, request.getParameter("text"));
+//                    }
+//                    countFind = OracleDataBase.getInstance().getCountFind(minPrice, maxPrice, request.getParameter("text"));
+//                    textFind = request.getParameter("text");
+//                }
+//
+//            } else {
+//                if (request.getParameter("page") != null && request.getParameter("page") != ""
+//                        && request.getParameter("page").length() > 0) {
+//                    if (request.getParameter("minPrice") != null && request.getParameter("minPrice") != ""
+//                            && request.getParameter("minPrice").length() > 0
+//                            && request.getParameter("maxPrice") != null && request.getParameter("maxPrice") != ""
+//                            && request.getParameter("maxPrice").length() > 0) {
+//                        minPrice = Integer.parseInt(request.getParameter("minPrice"));
+//                        maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
+//                        products = OracleDataBase.getInstance().getProducts(Integer.parseInt(request.getParameter("page")),
+//                                Integer.parseInt(request.getParameter("category")), minPrice, maxPrice);
+//                    } else
+//                        products = OracleDataBase.getInstance().getProducts(Integer.parseInt(request.getParameter("page")),
+//                                Integer.parseInt(request.getParameter("category")), 0, 0);
+//                } else {
+//                    products = OracleDataBase.getInstance().getProducts(1, Integer.parseInt(request.getParameter("category")), 0, 0);
+//                }
+//                countProduct = OracleDataBase.getInstance().getCount(Integer.parseInt(request.getParameter("category")), minPrice, maxPrice);
+//                categoryID = Integer.parseInt(request.getParameter("category"));
+//            }
+//        } else {
             categoryID = 0;
-            countProduct = OracleDataBase.getInstance().getCount(0, 0, 0);
-            products = OracleDataBase.getInstance().getProducts(1, 0, 0, 0);
-        }
+//            countProduct = OracleDataBase.getInstance().getCount(0, 0, 0);
+            countProduct = 100;
+//            products = OracleDataBase.getInstance().getProducts(1, 0, 0, 0);
+            products = (List<Product>) em.createNamedQuery("GET_ALL_PRODUCTS").getResultList();
+//        }
 
         categoryList = null;
         users = null;
         pictures = null;
-        categoryList = OracleDataBase.getInstance().getAllCategories();
-        users = OracleDataBase.getInstance().getAllUsers();
-        pictures = OracleDataBase.getInstance().getAllPictures();
+//        categoryList = OracleDataBase.getInstance().getAllCategories();
+        categoryList = (List<Category>) em.createNamedQuery("GET_ALL_CATEGORIES").getResultList();
+//        users = OracleDataBase.getInstance().getAllUsers();
+        users = (List<User>) em.createNamedQuery("GET_ALL_USERS").getResultList();
+//        pictures = OracleDataBase.getInstance().getAllPictures();
+        pictures = (List<Picture>) em.createNamedQuery("GET_ALL_PICTURES").getResultList();
         rd = request.getRequestDispatcher("index.jsp");
         request.setAttribute("list", categoryList);
         request.setAttribute("countProduct", countProduct);
@@ -155,7 +164,7 @@ public class IndexServlet extends HttpServlet {
     }
     
     public void destroy() {
-    	ServerTimerTask.stop();
+//    	ServerTimerTask.stop();
     }
 
     private void sendResponse(HttpServletResponse response, String text) {
