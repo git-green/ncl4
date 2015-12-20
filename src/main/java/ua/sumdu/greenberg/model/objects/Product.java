@@ -14,7 +14,84 @@ import javax.persistence.*;
 @Entity
 @Table(name = "PRODUCTS")
 @NamedNativeQueries({
-		@NamedNativeQuery(name = "GET_ALL_PRODUCTS", query = "SELECT * FROM PRODUCTS WHERE IS_ACTIVE = 'active'", resultClass = Product.class)
+		@NamedNativeQuery(name = "GET_ALL_PRODUCTS", query = "SELECT * FROM PRODUCTS WHERE IS_ACTIVE = 'active'", resultClass = Product.class),
+		@NamedNativeQuery(name = "GET_COUNT_PRODUCTS_FOR_ALL", query = "SELECT\n" +
+																		"    count(0)\n" +
+																		"FROM\n" +
+																		"  product_category pc,\n" +
+																		"  products p,\n" +
+																		"  categories c\n" +
+																		"WHERE\n" +
+																		"  pc.product_id = p.id(+)\n" +
+																		"  and pc.product_id = c.id(+) \n" +
+																		"  and p.is_active = 'active'\n" +
+																		"  and ((p.current_price = 0 and p.start_price >= ?) \n" +
+																		"\tor (p.current_price != 0 and p.current_price >= ?))\n" +
+																		"  and ((p.current_price = 0 and p.start_price <= ?) \n" +
+																		"\tor (p.current_price != 0 and p.current_price <= ?))"),
+		@NamedNativeQuery(name = "GET_COUNT_PRODUCTS_FOR_CATEGORY", query = "SELECT\n" +
+																			"    count(0)\n" +
+																			"FROM\n" +
+																			"  product_category pc,\n" +
+																			"  products p,\n" +
+																			"  categories c\n" +
+																			"WHERE\n" +
+																			"  pc.product_id = p.id(+)\n" +
+																			"  and pc.product_id = c.id(+) \n" +
+																			"  and c.parent_id = ? \n" +
+																			"  and p.is_active = 'active'\n" +
+																			"  and ((p.current_price = 0 and p.start_price >= ? )\n" +
+																			"\tor (p.current_price != 0 and p.current_price >= ? ))\n" +
+																			"  and ((p.current_price = 0 and p.start_price <= ? ) \n" +
+																			"\tor (p.current_price != 0 and p.current_price <= ? ))"),
+		@NamedNativeQuery(name = "GET_PRODUCTS_FOR_ALL_CATEGORIES", query ="select\n" +
+																			"  *\n" +
+																			"from\n" +
+																			"  (select\n" +
+																			"     g.*,\n" +
+																			"     rownum rn\n" +
+																			"   from\n" +
+																			"     (SELECT\n" +
+																			"        p.*\n" +
+																			"      FROM\n" +
+																			"        product_category pc,\n" +
+																			"        products p,\n" +
+																			"        categories c\n" +
+																			"      WHERE\n" +
+																			"        pc.product_id = p.id(+)\n" +
+																			"        and pc.product_id = c.id(+)\n" +
+																			"        and p.is_active = 'active'\n" +
+																			"        and ((p.current_price = 0 and p.start_price >= ? )\n" +
+																			"             or (p.current_price != 0 and p.current_price >= ? ))\n" +
+																			"        and ((p.current_price = 0 and p.start_price <= ? )\n" +
+																			"             or (p.current_price != 0 and p.current_price <= ? )))g)\n" +
+																			"where\n" +
+																			"  (rn > (?  * 10  - 10) and (rn <= ?  * 10)) ORDER BY ID ASC", resultClass = Product.class),
+	@NamedNativeQuery(name = "GET_PRODUCTS_FOR_CATEGORY", query ="select\n" +
+																"  *\n" +
+																"from\n" +
+																"  (select\n" +
+																"     g.*,\n" +
+																"     rownum rn\n" +
+																"   from\n" +
+																"     (SELECT\n" +
+																"        p.*\n" +
+																"      FROM\n" +
+																"        product_category pc,\n" +
+																"        products p,\n" +
+																"        categories c\n" +
+																"      WHERE\n" +
+																"        pc.product_id = p.id(+)\n" +
+																"        and pc.product_id = c.id(+)\n" +
+																"		 and c.parent_id = ? \n" +
+																"        and p.is_active = 'active'\n" +
+																"        and ((p.current_price = 0 and p.start_price >= ? )\n" +
+																"             or (p.current_price != 0 and p.current_price >= ? ))\n" +
+																"        and ((p.current_price = 0 and p.start_price <= ? )\n" +
+																"             or (p.current_price != 0 and p.current_price <= ? )))g)\n" +
+																"where\n" +
+																"  (rn > (? * 10  - 10) and (rn <= ? * 10)) ORDER BY ID ASC", resultClass = Product.class)
+
 })
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
