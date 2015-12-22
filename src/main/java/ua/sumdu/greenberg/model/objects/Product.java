@@ -38,7 +38,7 @@ import javax.persistence.*;
 																			"WHERE\n" +
 																			"  pc.product_id = p.id(+)\n" +
 																			"  and pc.product_id = c.id(+) \n" +
-																			"  and c.parent_id = ? \n" +
+																			"  and pc.category_id = ? \n" +
 																			"  and p.is_active = 'active'\n" +
 																			"  and ((p.current_price = 0 and p.start_price >= ? )\n" +
 																			"\tor (p.current_price != 0 and p.current_price >= ? ))\n" +
@@ -83,7 +83,7 @@ import javax.persistence.*;
 																"      WHERE\n" +
 																"        pc.product_id = p.id(+)\n" +
 																"        and pc.product_id = c.id(+)\n" +
-																"		 and c.parent_id = ? \n" +
+																"		 and pc.category_id = ? \n" +
 																"        and p.is_active = 'active'\n" +
 																"        and ((p.current_price = 0 and p.start_price >= ? )\n" +
 																"             or (p.current_price != 0 and p.current_price >= ? ))\n" +
