@@ -50,6 +50,7 @@ body {
     width: 100px;
     float: left;
     margin-left: 50px;
+    margin-top: 10px;
 }
 
 #block-name-site {
@@ -60,6 +61,7 @@ body {
 #block-contact {
     width: 140px;
     font-size: 13px;
+    margin-top: 10px;
     float: right;
 }
 
