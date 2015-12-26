@@ -67,30 +67,63 @@ import javax.persistence.*;
 																			"             or (p.current_price != 0 and p.current_price <= ? )))g)\n" +
 																			"where\n" +
 																			"  (rn > (?  * 10  - 10) and (rn <= ?  * 10)) ORDER BY ID ASC", resultClass = Product.class),
-	@NamedNativeQuery(name = "GET_PRODUCTS_FOR_CATEGORY", query ="select\n" +
-																"  *\n" +
-																"from\n" +
-																"  (select\n" +
-																"     g.*,\n" +
-																"     rownum rn\n" +
-																"   from\n" +
-																"     (SELECT\n" +
-																"        p.*\n" +
-																"      FROM\n" +
-																"        product_category pc,\n" +
-																"        products p,\n" +
-																"        categories c\n" +
-																"      WHERE\n" +
-																"        pc.product_id = p.id(+)\n" +
-																"        and pc.product_id = c.id(+)\n" +
-																"		 and pc.category_id = ? \n" +
-																"        and p.is_active = 'active'\n" +
-																"        and ((p.current_price = 0 and p.start_price >= ? )\n" +
-																"             or (p.current_price != 0 and p.current_price >= ? ))\n" +
-																"        and ((p.current_price = 0 and p.start_price <= ? )\n" +
-																"             or (p.current_price != 0 and p.current_price <= ? )))g)\n" +
-																"where\n" +
-																"  (rn > (? * 10  - 10) and (rn <= ? * 10)) ORDER BY ID ASC", resultClass = Product.class)
+		@NamedNativeQuery(name = "GET_PRODUCTS_FOR_CATEGORY", query ="select\n" +
+																	"  *\n" +
+																	"from\n" +
+																	"  (select\n" +
+																	"     g.*,\n" +
+																	"     rownum rn\n" +
+																	"   from\n" +
+																	"     (SELECT\n" +
+																	"        p.*\n" +
+																	"      FROM\n" +
+																	"        product_category pc,\n" +
+																	"        products p,\n" +
+																	"        categories c\n" +
+																	"      WHERE\n" +
+																	"        pc.product_id = p.id(+)\n" +
+																	"        and pc.product_id = c.id(+)\n" +
+																	"		 and pc.category_id = ? \n" +
+																	"        and p.is_active = 'active'\n" +
+																	"        and ((p.current_price = 0 and p.start_price >= ? )\n" +
+																	"             or (p.current_price != 0 and p.current_price >= ? ))\n" +
+																	"        and ((p.current_price = 0 and p.start_price <= ? )\n" +
+																	"             or (p.current_price != 0 and p.current_price <= ? )))g)\n" +
+																	"where\n" +
+																	"  (rn > (? * 10  - 10) and (rn <= ? * 10)) ORDER BY ID ASC", resultClass = Product.class),
+		@NamedNativeQuery(name="FIND_COUNT_ALL_PRODUCT", query="SELECT\n" +
+														"  count(*)\n" +
+														"FROM\n" +
+														"  products p\n" +
+														"WHERE\n" +
+														"  (p.name LIKE (?) /*text*/ or p.name LIKE upper(?) /*text*/\n" +
+														"  and p.is_active = 'active'\n" +
+														"    or p.description LIKE (?) /*text*/ or p.description LIKE upper(?) /*text*/)\n" +
+														"  and ((p.current_price = 0 and p.start_price >= ? /*minPrice*/)\n" +
+														"    or (p.current_price != 0 and p.current_price >= ? /*minPrice*/))\n" +
+														"  and ((p.current_price = 0 and p.start_price <= ? /*maxPrice*/)\n" +
+														"    or (p.current_price != 0 and p.current_price <= ? /*maxPrice*/))"),
+		@NamedNativeQuery(name="GET_FIND_PRODUCT_ON_PAGE", query="SELECT\n" +
+																"    *\n" +
+																"FROM\n" +
+																"  ( SELECT\n" +
+																"        g.*,\n" +
+																"        rownum rn\n" +
+																"    FROM\n" +
+																"        ( SELECT\n" +
+																"              p.*\n" +
+																"          FROM\n" +
+																"              products p\n" +
+																"          WHERE\n" +
+																"              (p.name LIKE (?) /*text*/ or p.name LIKE upper(?) /*text*/\n" +
+																"                or p.description LIKE (?) /*text*/ or p.description LIKE upper(?) /*text*/)\n" +
+																"              and p.is_active = 'active'\n" +
+																"              and ((p.current_price = 0 and p.start_price >= ? /*minPrice*/)\n" +
+																"                or (p.current_price != 0 and p.current_price >= ? /*minPrice*/))\n" +
+																"              and ((p.current_price = 0 and p.start_price <= ? /*maxPrice*/)\n" +
+																"                or (p.current_price != 0 and p.current_price <= ? /*maxPrice*/)))g)\n" +
+																"WHERE\n" +
+																"  (rn > (? /*page*/ * 10  - 10) and (rn <= ? /*page*/ * 10)) ORDER BY ID ASC", resultClass = Product.class)
 
 })
 public class Product implements Serializable {
