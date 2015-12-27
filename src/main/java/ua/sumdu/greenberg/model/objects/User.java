@@ -18,11 +18,15 @@ import java.util.List;
 @NamedNativeQueries({
 		@NamedNativeQuery(name="GET_ALL_USERS", query="SELECT * FROM USERS", resultClass = User.class),
 		@NamedNativeQuery(name="AUTHORIZATION", query="SELECT * FROM USERS WHERE LOGIN = ? AND PASSWORD = ?", resultClass = User.class),
-		@NamedNativeQuery(name="AUTHORIZATION_BY_EMAIL", query="SELECT * FROM USERS WHERE EMAIL = ? AND PASSWORD = ?", resultClass = User.class)
+		@NamedNativeQuery(name="AUTHORIZATION_BY_EMAIL", query="SELECT * FROM USERS WHERE EMAIL = ? AND PASSWORD = ?", resultClass = User.class),
+		@NamedNativeQuery(name="LOGIN_IS_FREE", query="SELECT count(0) FROM users WHERE login = ?"),
+		@NamedNativeQuery(name="EMAIL_IS_FREE", query="SELECT count(0) FROM users WHERE email = ?")
 })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "USER_ID_S")
+	@SequenceGenerator(name = "USER_ID_S", sequenceName = "USER_ID_S", allocationSize = 1)
 	@Column(name = "ID")
 	private int id;
 	@Column(name = "LOGIN")
@@ -36,7 +40,7 @@ public class User implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "BIRTH")
 	private Date birth;
-	private int age;
+//	private int age;
 	@Column(name = "EMAIL")
 	private String eMail;
 	@Column(name = "PHONE")
@@ -51,11 +55,11 @@ public class User implements Serializable {
 	@Column(name = "IS_BANED")
 	private String baned;
 
-	private boolean isAdmin;
+//	private boolean isAdmin;
 
-	private boolean isActivated;
+//	private boolean isActivated;
 
-	private boolean isBanned;
+//	private boolean isBanned;
 
 	public User(){}
 
@@ -148,12 +152,12 @@ public class User implements Serializable {
 	}
 
 	public int getAge() {
-		return age;
+		return 20;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
-	}
+//	public void setAge(int age) {
+//		this.age = age;
+//	}
 
 	public String getStatus() {
 		return status;
