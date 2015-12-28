@@ -123,8 +123,8 @@ import javax.persistence.*;
 																"              and ((p.current_price = 0 and p.start_price <= ? /*maxPrice*/)\n" +
 																"                or (p.current_price != 0 and p.current_price <= ? /*maxPrice*/)))g)\n" +
 																"WHERE\n" +
-																"  (rn > (? /*page*/ * 10  - 10) and (rn <= ? /*page*/ * 10)) ORDER BY ID ASC", resultClass = Product.class)
-
+																"  (rn > (? /*page*/ * 10  - 10) and (rn <= ? /*page*/ * 10)) ORDER BY ID ASC", resultClass = Product.class),
+		@NamedNativeQuery(name="GET_PRODUCT_BY_ID", query="SELECT * FROM products WHERE id = ?", resultClass = Product.class)
 })
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;

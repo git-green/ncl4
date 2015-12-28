@@ -13,7 +13,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "PICTURES")
 @NamedNativeQueries({
-		@NamedNativeQuery(name="GET_ALL_PICTURES", query="SELECT * FROM PICTURES", resultClass = Picture.class)
+		@NamedNativeQuery(name="GET_ALL_PICTURES", query="SELECT * FROM PICTURES", resultClass = Picture.class),
+		@NamedNativeQuery(name="GET_PICTURE_BY_ID", query="SELECT * FROM PICTURES WHERE product_id = ?", resultClass = Picture.class)
 })
 public class Picture implements Serializable {
 	private static final long serialVersionUID = 1L;
