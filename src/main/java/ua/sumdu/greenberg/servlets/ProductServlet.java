@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,20 +35,31 @@ public class ProductServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         if ("clickBet".equals(request.getParameter("action"))) {
-//            if (OracleDataBase.getInstance().makeBet(Integer.parseInt(request.getParameter("productID")),
-//                    Integer.parseInt(request.getParameter("buyerID")),
-//                    Integer.parseInt(request.getParameter("bet")))) {
-//                sendResponse(response, "<result>OK</result>");
-//            } else {
-//                sendResponse(response, "<result>Error: DataBase.</result>");
-//            }
+            product = (Product) em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("productID"))).getResultList().get(0);
+            if (product.getCurrentPrice() > Integer.parseInt(request.getParameter("bet")) || (!product.isActive())) {
+                sendResponse(response, "<result>Error: Your bet is small. </result>");
+            } else {
+                if (Integer.parseInt(request.getParameter("bet")) >= product.getBuyoutPrice()) {
+                    sendResponse(response, "<result>OK</result>");
+                } else {
+                    em.getTransaction().begin();
+                    product.setCurrentPrice(Integer.parseInt(request.getParameter("bet")));
+                    product.setCurrentBuyerID(Integer.parseInt(request.getParameter("buyerID")));
+                    em.getTransaction().commit();
+                    // message
+                    sendResponse(response, "<result>OK</result>");
+                }
+            }
+
         } else if ("realBuy".equals(request.getParameter("action"))) {
-//            if (OracleDataBase.getInstance().buyout(Integer.parseInt(request.getParameter("productID")),
-//                    Integer.parseInt(request.getParameter("userID")))) {
-//                sendResponse(response, "<result>OK</result>");
-//            } else {
-//                sendResponse(response, "<result>Can not buy</result>");
-//            }
+            em.getTransaction().begin();
+            product.setCurrentPrice(product.getBuyoutPrice());
+            product.setCurrentBuyerID(Integer.parseInt(request.getParameter("userID")));
+            product.setEndDate(new Date());
+            product.setActive("disactive");
+            em.getTransaction().commit();
+            // message
+            sendResponse(response, "<result>OK</result>");
         }
     }
 
@@ -57,7 +69,6 @@ public class ProductServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd;
             if (request.getParameter("id") != null && !request.getParameter("id").equals("") &&
-//                    OracleDataBase.getInstance().getProduct(Integer.parseInt(request.getParameter("id"))) != null) {
                     em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList() != null) {
                 product = (Product) em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList().get(0);
                 pictures = (List<Picture>) em.createNamedQuery("GET_PICTURE_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList();
