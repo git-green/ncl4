@@ -1,5 +1,7 @@
 package ua.sumdu.greenberg.model.objects;
 
+import com.sun.istack.internal.Nullable;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -129,9 +131,11 @@ import javax.persistence.*;
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "PRODUCT_ID_S")
+	@SequenceGenerator(name = "PRODUCT_ID_S", sequenceName = "PRODUCT_ID_S", allocationSize = 1)
 	@Column(name = "ID")
 	private int id;
-	@Column(name = "SELER_ID")
+	@Column(name = "SELLER_ID")
 	private int sellerID;
 	@Column(name = "NAME")
 	private String name;
