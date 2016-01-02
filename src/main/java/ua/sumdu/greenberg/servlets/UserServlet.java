@@ -201,31 +201,35 @@ public class UserServlet extends HttpServlet {
             }
         } else if ("showLotsPurchased".equals(request.getParameter("action"))) {
 //            if (request.getSession().getAttribute("user") != null) {
-                User user = (User) request.getSession().getAttribute("user");
+            User user = (User) request.getSession().getAttribute("user");
 //                purchasedList = OracleDataBase.getInstance().getUsersBuying(user.getId());
-                showContent = "showLotsPurchased";
-                sendResponse(response, "<result>OK</result>");
+            purchasedList = (List<Product>) em.createNamedQuery("GET_USER_BUYING").setParameter(1, user.getId()).getResultList();
+            showContent = "showLotsPurchased";
+            sendResponse(response, "<result>OK</result>");
 //            }
         } else if ("followingProducts".equals(request.getParameter("action"))) {
 //            if (request.getSession().getAttribute("user") != null) {
-                User user = (User) request.getSession().getAttribute("user");
+            User user = (User) request.getSession().getAttribute("user");
 //                followingList = OracleDataBase.getInstance().getFollowingProducts(user.getId());
-                showContent = "followingProducts";
-                sendResponse(response, "<result>OK</result>");
+            followingList = (List<Product>) em.createNamedQuery("GET_FOLLOWING_PRODUCTS").setParameter(1, user.getId()).getResultList();
+            showContent = "followingProducts";
+            sendResponse(response, "<result>OK</result>");
 //            }
         } else if ("clickSoldGoodsPage".equals(request.getParameter("action"))) {
 //            if (request.getSession().getAttribute("user") != null) {
-                User user = (User) request.getSession().getAttribute("user");
+            User user = (User) request.getSession().getAttribute("user");
 //                goods = OracleDataBase.getInstance().getUsersProducts(user.getId());
-                showContent = "clickSoldGoodsPage";
-                sendResponse(response, "<result>OK</result>");
+            goods = (List<Product>) em.createNamedQuery("GET_USERS_PRODUCTS").setParameter(1, user.getId()).getResultList();
+            showContent = "clickSoldGoodsPage";
+            sendResponse(response, "<result>OK</result>");
 //            }
         } else if ("clickGoodsForSalePage".equals(request.getParameter("action"))) {
 //            if (request.getSession().getAttribute("user") != null) {
-                User user = (User) request.getSession().getAttribute("user");
+            User user = (User) request.getSession().getAttribute("user");
 //                goods = OracleDataBase.getInstance().getUsersProducts(user.getId());
-                showContent = "clickGoodsForSalePage";
-                sendResponse(response, "<result>OK</result>");
+            goods = (List<Product>) em.createNamedQuery("GET_USERS_PRODUCTS").setParameter(1, user.getId()).getResultList();
+            showContent = "clickGoodsForSalePage";
+            sendResponse(response, "<result>OK</result>");
 //            }
         } else if ("clickGoodsForSale".equals(request.getParameter("action"))) {
             request.getSession().setAttribute("prodID", Integer.parseInt(request.getParameter("prodID")));

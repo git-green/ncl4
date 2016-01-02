@@ -126,7 +126,16 @@ import javax.persistence.*;
 																"                or (p.current_price != 0 and p.current_price <= ? /*maxPrice*/)))g)\n" +
 																"WHERE\n" +
 																"  (rn > (? /*page*/ * 10  - 10) and (rn <= ? /*page*/ * 10)) ORDER BY ID ASC", resultClass = Product.class),
-		@NamedNativeQuery(name="GET_PRODUCT_BY_ID", query="SELECT * FROM products WHERE id = ?", resultClass = Product.class)
+		@NamedNativeQuery(name="GET_PRODUCT_BY_ID", query="SELECT * FROM products WHERE id = ?", resultClass = Product.class),
+		@NamedNativeQuery(name="GET_USER_BUYING", query="SELECT * FROM PRODUCTS WHERE CURRENT_BUYER_ID = ? AND IS_ACTIVE = 'disactive'", resultClass = Product.class),
+		@NamedNativeQuery(name="GET_FOLLOWING_PRODUCTS", query="select distinct(p.id), p.seller_id, p.name, p.description, p.start_date, p.end_date, p.start_price, p.buyout_price, p.current_price, p.current_buyer_id, p.is_active\n" +
+																"from  products p,\n" +
+																"      followings f\n" +
+																"where \n" +
+																"      p.id = f.product_id \n" +
+																"      and f.follower_id= ? \n" +
+																"      and p.is_active = 'active'", resultClass = Product.class),
+		@NamedNativeQuery(name="GET_USERS_PRODUCTS", query="SELECT * FROM PRODUCTS WHERE SELLER_ID = ?", resultClass = Product.class)
 })
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;

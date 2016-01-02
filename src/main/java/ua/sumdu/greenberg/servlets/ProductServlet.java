@@ -1,6 +1,7 @@
 package ua.sumdu.greenberg.servlets;
 
 import org.apache.log4j.Logger;
+import ua.sumdu.greenberg.model.objects.Following;
 import ua.sumdu.greenberg.model.objects.Picture;
 import ua.sumdu.greenberg.model.objects.Product;
 import ua.sumdu.greenberg.model.objects.User;
@@ -45,7 +46,12 @@ public class ProductServlet extends HttpServlet {
                     em.getTransaction().begin();
                     product.setCurrentPrice(Integer.parseInt(request.getParameter("bet")));
                     product.setCurrentBuyerID(Integer.parseInt(request.getParameter("buyerID")));
+                    Following f = new Following();
+                    f.setProduct_id(product.getId());
+                    f.setFollower_id(Integer.parseInt(request.getParameter("buyerID")));
+                    em.persist(f);
                     em.getTransaction().commit();
+
                     // message
                     sendResponse(response, "<result>OK</result>");
                 }
