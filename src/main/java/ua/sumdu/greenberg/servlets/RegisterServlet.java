@@ -29,7 +29,7 @@ import java.util.Date;
 */
 public class RegisterServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(RegisterServlet.class);
-    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
+//    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/xml");
@@ -52,15 +52,15 @@ public class RegisterServlet extends HttpServlet {
         if (!isResponseCorrect) {
         	sendResponse(response, "<result>Wrong captcha!</result>");
         } else if ("registerData".equals(request.getParameter("action"))) {
-            System.out.println("LOGIN = " + !(((Number) em.createNamedQuery("LOGIN_IS_FREE").setParameter(1, request.getParameter("login")).getSingleResult()).intValue() == 0));
-            System.out.println("EMAIL = " + !(((Number) em.createNamedQuery("EMAIL_IS_FREE").setParameter(1, request.getParameter("email")).getSingleResult()).intValue() == 0));
+            System.out.println("LOGIN = " + !(((Number) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("LOGIN_IS_FREE").setParameter(1, request.getParameter("login")).getSingleResult()).intValue() == 0));
+            System.out.println("EMAIL = " + !(((Number) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("EMAIL_IS_FREE").setParameter(1, request.getParameter("email")).getSingleResult()).intValue() == 0));
 
-            if (!(((Number) em.createNamedQuery("LOGIN_IS_FREE").setParameter(1, request.getParameter("login")).getSingleResult()).intValue() == 0)) {
+            if (!(((Number) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("LOGIN_IS_FREE").setParameter(1, request.getParameter("login")).getSingleResult()).intValue() == 0)) {
                                sendResponse(response, "<result>This login is busy</result>");
-            } else if (!(((Number) em.createNamedQuery("EMAIL_IS_FREE").setParameter(1, request.getParameter("email")).getSingleResult()).intValue() == 0)) {
+            } else if (!(((Number) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("EMAIL_IS_FREE").setParameter(1, request.getParameter("email")).getSingleResult()).intValue() == 0)) {
                                 sendResponse(response, "<result>This email is busy</result>");
             } else {
-                em.getTransaction().begin();
+                ((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
                 User user = new User();
                 user.setLogin(request.getParameter("login"));
                 user.setPassword(request.getParameter("password"));
@@ -73,8 +73,8 @@ public class RegisterServlet extends HttpServlet {
                 user.setStatus("user");
                 user.setActive("unactivated");
                 user.setBaned("unbanned");
-                em.persist(user);
-                em.getTransaction().commit();
+                ((EntityManager) request.getSession().getAttribute("em")).persist(user);
+                ((EntityManager) request.getSession().getAttribute("em")).getTransaction().commit();
 
 //                Messager.registrationMail(request.getParameter("login"), request.getParameter("firstName"), request.getParameter("email"));
 

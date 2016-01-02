@@ -21,7 +21,7 @@ import java.io.PrintWriter;
  */
 public class LoginServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(LoginServlet.class);
-    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
+//    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/xml");
@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         if ("login".equals(request.getParameter("action"))) {
             log.info("Click login");
-            User user = (User) em.createNamedQuery("AUTHORIZATION").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
+            User user = (User) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("AUTHORIZATION").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
             log.info("USER - " + user);
             if (user != null) {
                 if (!user.isBanned()) {
@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
                 sendResponse(response, "<result>Login incorrect.</result>");
             }
         } else if ("loginEmail".equals(request.getParameter("action"))) {
-            User res = (User) em.createNamedQuery("AUTHORIZATION_BY_EMAIL").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
+            User res = (User) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("AUTHORIZATION_BY_EMAIL").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
             if (res != null) {
                 if (!res.isBanned()) {
                     request.getSession().setAttribute("user", res);

@@ -80,6 +80,7 @@ public class IndexServlet extends HttpServlet {
         response.setHeader("Cache-Control", "no-cache");
         response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd;
+        request.getSession().setAttribute("em", em);
         products = null;
         countProduct = 0;
         countFind = 0;
@@ -100,20 +101,20 @@ public class IndexServlet extends HttpServlet {
                                     request.getParameter("maxPrice").length() > 0) {
                                 minPrice = Integer.parseInt(request.getParameter("minPrice"));
                                 maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
-                                products = (List<Product>) em.createNamedQuery("GET_FIND_PRODUCT_ON_PAGE").setParameter(1, "%" + request.getParameter("text")
+                                products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_FIND_PRODUCT_ON_PAGE").setParameter(1, "%" + request.getParameter("text")
                                         + "%").setParameter(2, "%" + request.getParameter("text") + "%").setParameter(3, "%" + request.getParameter("text")
                                         + "%").setParameter(4, "%" + request.getParameter("text") + "%").setParameter(5, minPrice).setParameter(6, minPrice).setParameter(7, maxPrice).setParameter(8, maxPrice).setParameter(9, Integer.parseInt(request.getParameter("page"))).setParameter(10, Integer.parseInt(request.getParameter("page"))).getResultList();
                             } else {
-                                products = (List<Product>) em.createNamedQuery("GET_FIND_PRODUCT_ON_PAGE").setParameter(1, "%" + request.getParameter("text")
+                                products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_FIND_PRODUCT_ON_PAGE").setParameter(1, "%" + request.getParameter("text")
                                         + "%").setParameter(2, "%" + request.getParameter("text") + "%").setParameter(3, "%" + request.getParameter("text")
                                         + "%").setParameter(4, "%" + request.getParameter("text") + "%").setParameter(5, minPrice).setParameter(6, minPrice).setParameter(7, maxPrice).setParameter(8, maxPrice).setParameter(9, Integer.parseInt(request.getParameter("page"))).setParameter(10, Integer.parseInt(request.getParameter("page"))).getResultList();
                             }
                         } else {
-                            products = (List<Product>) em.createNamedQuery("GET_FIND_PRODUCT_ON_PAGE").setParameter(1, "%" + request.getParameter("text")
+                            products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_FIND_PRODUCT_ON_PAGE").setParameter(1, "%" + request.getParameter("text")
                                     + "%").setParameter(2, "%" + request.getParameter("text") + "%").setParameter(3, "%" + request.getParameter("text")
                                     + "%").setParameter(4, "%" + request.getParameter("text") + "%").setParameter(5, minPrice).setParameter(6, minPrice).setParameter(7, maxPrice).setParameter(8, maxPrice).setParameter(9, 1).setParameter(10, 1).getResultList();
                         }
-                     countFind = ((Number) em.createNamedQuery("FIND_COUNT_ALL_PRODUCT").setParameter(1, "%" + request.getParameter("text")
+                     countFind = ((Number) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("FIND_COUNT_ALL_PRODUCT").setParameter(1, "%" + request.getParameter("text")
                              + "%").setParameter(2, "%" + request.getParameter("text") + "%").setParameter(3, "%" + request.getParameter("text")
                              + "%").setParameter(4, "%" + request.getParameter("text") + "%").setParameter(5, minPrice).setParameter(6, minPrice).setParameter(7, maxPrice).setParameter(8, maxPrice).getSingleResult()).intValue();
                     }
@@ -128,13 +129,13 @@ public class IndexServlet extends HttpServlet {
                                     && request.getParameter("maxPrice").length() > 0) {
                                 minPrice = Integer.parseInt(request.getParameter("minPrice"));
                                 maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
-                                products = (List<Product>) em.createNamedQuery("GET_PRODUCTS_FOR_CATEGORY").setParameter(1, Integer.parseInt(request.getParameter("category"))).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, maxPrice).setParameter(6, Integer.parseInt(request.getParameter("page"))).setParameter(7, Integer.parseInt(request.getParameter("page"))).getResultList();
+                                products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCTS_FOR_CATEGORY").setParameter(1, Integer.parseInt(request.getParameter("category"))).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, maxPrice).setParameter(6, Integer.parseInt(request.getParameter("page"))).setParameter(7, Integer.parseInt(request.getParameter("page"))).getResultList();
                             } else
-                                products = (List<Product>) em.createNamedQuery("GET_PRODUCTS_FOR_CATEGORY").setParameter(1, Integer.parseInt(request.getParameter("category"))).setParameter(2, minPrice).setParameter(3, minPrice).setParameter(4, maxPrice).setParameter(5, maxPrice).setParameter(6, Integer.parseInt(request.getParameter("page"))).setParameter(7, Integer.parseInt(request.getParameter("page"))).getResultList();
+                                products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCTS_FOR_CATEGORY").setParameter(1, Integer.parseInt(request.getParameter("category"))).setParameter(2, minPrice).setParameter(3, minPrice).setParameter(4, maxPrice).setParameter(5, maxPrice).setParameter(6, Integer.parseInt(request.getParameter("page"))).setParameter(7, Integer.parseInt(request.getParameter("page"))).getResultList();
                         } else {
-                            products = (List<Product>) em.createNamedQuery("GET_PRODUCTS_FOR_CATEGORY").setParameter(1, Integer.parseInt(request.getParameter("category"))).setParameter(2, minPrice).setParameter(3, minPrice).setParameter(4, maxPrice).setParameter(5, maxPrice).setParameter(6, 1).setParameter(7, 1).getResultList();
+                            products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCTS_FOR_CATEGORY").setParameter(1, Integer.parseInt(request.getParameter("category"))).setParameter(2, minPrice).setParameter(3, minPrice).setParameter(4, maxPrice).setParameter(5, maxPrice).setParameter(6, 1).setParameter(7, 1).getResultList();
                         }
-                    countProduct = ((Number) em.createNamedQuery("GET_COUNT_PRODUCTS_FOR_CATEGORY").setParameter(1, Integer.parseInt(request.getParameter("category"))).setParameter(2, minPrice).setParameter(3, minPrice).setParameter(4, maxPrice).setParameter(5, maxPrice).getSingleResult()).intValue();
+                    countProduct = ((Number) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_COUNT_PRODUCTS_FOR_CATEGORY").setParameter(1, Integer.parseInt(request.getParameter("category"))).setParameter(2, minPrice).setParameter(3, minPrice).setParameter(4, maxPrice).setParameter(5, maxPrice).getSingleResult()).intValue();
                     } else {
                         if (request.getParameter("page") != null && request.getParameter("page") != ""
                                 && request.getParameter("page").length() > 0) {
@@ -144,29 +145,29 @@ public class IndexServlet extends HttpServlet {
                                     && request.getParameter("maxPrice").length() > 0) {
                                 minPrice = Integer.parseInt(request.getParameter("minPrice"));
                                 maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
-                                products = (List<Product>) em.createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, Integer.parseInt(request.getParameter("page"))).setParameter(6, Integer.parseInt(request.getParameter("page"))).getResultList();
+                                products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, Integer.parseInt(request.getParameter("page"))).setParameter(6, Integer.parseInt(request.getParameter("page"))).getResultList();
                             } else {
-                                products = (List<Product>) em.createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, Integer.parseInt(request.getParameter("page"))).setParameter(6, Integer.parseInt(request.getParameter("page"))).getResultList();
+                                products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, Integer.parseInt(request.getParameter("page"))).setParameter(6, Integer.parseInt(request.getParameter("page"))).getResultList();
                             }
-                            products = (List<Product>) em.createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, Integer.parseInt(request.getParameter("page"))).setParameter(6, Integer.parseInt(request.getParameter("page"))).getResultList();
+                            products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, Integer.parseInt(request.getParameter("page"))).setParameter(6, Integer.parseInt(request.getParameter("page"))).getResultList();
                         } else {
-                            products = (List<Product>) em.createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, 1).setParameter(6, 1).getResultList();
+                            products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, 1).setParameter(6, 1).getResultList();
                         }
-                        countProduct = ((Number) em.createNamedQuery("GET_COUNT_PRODUCTS_FOR_ALL").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).getSingleResult()).intValue();
+                        countProduct = ((Number) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_COUNT_PRODUCTS_FOR_ALL").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).getSingleResult()).intValue();
                     }
                 }
         } else {
             categoryID = 0;
-            countProduct = ((Number) em.createNamedQuery("GET_COUNT_PRODUCTS_FOR_ALL").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).getSingleResult()).intValue();
-            products = (List<Product>) em.createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, 1).setParameter(6, 1).getResultList();
+            countProduct = ((Number) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_COUNT_PRODUCTS_FOR_ALL").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).getSingleResult()).intValue();
+            products = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCTS_FOR_ALL_CATEGORIES").setParameter(1, minPrice).setParameter(2, minPrice).setParameter(3, maxPrice).setParameter(4, maxPrice).setParameter(5, 1).setParameter(6, 1).getResultList();
         }
 
         categoryList = null;
         users = null;
         pictures = null;
-        categoryList = (List<Category>) em.createNamedQuery("GET_ALL_CATEGORIES").getResultList();
-        users = (List<User>) em.createNamedQuery("GET_ALL_USERS").getResultList();
-        pictures = (List<Picture>) em.createNamedQuery("GET_ALL_PICTURES").getResultList();
+        categoryList = (List<Category>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_ALL_CATEGORIES").getResultList();
+        users = (List<User>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_ALL_USERS").getResultList();
+        pictures = (List<Picture>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_ALL_PICTURES").getResultList();
         rd = request.getRequestDispatcher("index.jsp");
         request.setAttribute("list", categoryList);
         request.setAttribute("countProduct", countProduct);

@@ -25,7 +25,7 @@ import java.util.List;
 */
 public class ProductServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(IndexServlet.class);
-    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
+//    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
     private Product product;
     private List<Picture> pictures;
     private List<User> users;
@@ -36,21 +36,21 @@ public class ProductServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         if ("clickBet".equals(request.getParameter("action"))) {
-            product = (Product) em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("productID"))).getResultList().get(0);
+            product = (Product) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("productID"))).getResultList().get(0);
             if (product.getCurrentPrice() > Integer.parseInt(request.getParameter("bet")) || (!product.isActive())) {
                 sendResponse(response, "<result>Error: Your bet is small. </result>");
             } else {
                 if (Integer.parseInt(request.getParameter("bet")) >= product.getBuyoutPrice()) {
                     sendResponse(response, "<result>OK</result>");
                 } else {
-                    em.getTransaction().begin();
+                    ((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
                     product.setCurrentPrice(Integer.parseInt(request.getParameter("bet")));
                     product.setCurrentBuyerID(Integer.parseInt(request.getParameter("buyerID")));
                     Following f = new Following();
                     f.setProduct_id(product.getId());
                     f.setFollower_id(Integer.parseInt(request.getParameter("buyerID")));
-                    em.persist(f);
-                    em.getTransaction().commit();
+                    ((EntityManager) request.getSession().getAttribute("em")).persist(f);
+                    ((EntityManager) request.getSession().getAttribute("em")).getTransaction().commit();
 
                     // message
                     sendResponse(response, "<result>OK</result>");
@@ -58,12 +58,12 @@ public class ProductServlet extends HttpServlet {
             }
 
         } else if ("realBuy".equals(request.getParameter("action"))) {
-            em.getTransaction().begin();
+            ((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
             product.setCurrentPrice(product.getBuyoutPrice());
             product.setCurrentBuyerID(Integer.parseInt(request.getParameter("userID")));
             product.setEndDate(new Date());
             product.setActive("disactive");
-            em.getTransaction().commit();
+            ((EntityManager) request.getSession().getAttribute("em")).getTransaction().commit();
             // message
             sendResponse(response, "<result>OK</result>");
         }
@@ -75,10 +75,10 @@ public class ProductServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd;
             if (request.getParameter("id") != null && !request.getParameter("id").equals("") &&
-                    em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList() != null) {
-                product = (Product) em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList().get(0);
-                pictures = (List<Picture>) em.createNamedQuery("GET_PICTURE_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList();
-                users = (List<User>) em.createNamedQuery("GET_ALL_USERS").getResultList();
+                    ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList() != null) {
+                product = (Product) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList().get(0);
+                pictures = (List<Picture>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PICTURE_BY_ID").setParameter(1, Integer.parseInt(request.getParameter("id"))).getResultList();
+                users = (List<User>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_ALL_USERS").getResultList();
                 request.setAttribute("pictures", pictures);
                 request.setAttribute("product", product);
                 request.setAttribute("users", users);
