@@ -6,14 +6,9 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 //import ua.sumdu.greenberg.model.Messager;
-//import ua.sumdu.greenberg.model.OracleDataBase;
-import ua.sumdu.greenberg.model.objects.Category;
-import ua.sumdu.greenberg.model.objects.Picture;
-import ua.sumdu.greenberg.model.objects.Product;
-import ua.sumdu.greenberg.model.objects.User;
+import ua.sumdu.greenberg.model.objects.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -33,7 +28,6 @@ import java.util.Random;
 */
 public class UserServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(UserServlet.class);
-//    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
     private static final String LOCAL_ADDRESS = "D:/NetCracker/GitHub/l4_EJB/target/AuctionEJB/images/product-images/";
 //    private static final String LOCAL_ADDRESS = "D:\\GitHub\\WebApplication\\target\\WebApplication\\images\\product-images\\";
 //    private static final String LOCAL_ADDRESS = "C:/Documents and Settings/User/IdeaProjects/WebApplication/target/WebApplication/images/product-images/"; // Laptop
@@ -54,8 +48,6 @@ public class UserServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         showContent = "information";
-//        categoryList = OracleDataBase.getInstance().getAllCategories();
-//        categoryList = (List<Category>) em.createNamedQuery("GET_ALL_CATEGORIES").getResultList();
         purchasedList = null;
         followingList = null;
         pictures = null;
@@ -101,10 +93,6 @@ public class UserServlet extends HttpServlet {
         } else if ("clickChangePassword".equals(request.getParameter("action"))) {
             if (request.getSession().getAttribute("user") != null) {
                 User user = (User) request.getSession().getAttribute("user");
-//                if (OracleDataBase.getInstance().changePassword(user.getId(),
-//                    request.getParameter("oldPassword"), request.getParameter("newPassword"))) {
-//                    sendResponse(response, "<result>OK</result>");
-//                }
                 if (request.getParameter("oldPassword").equals(user.getPassword())) {
                     ((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
                     user.setPassword(request.getParameter("newPassword"));
@@ -117,11 +105,6 @@ public class UserServlet extends HttpServlet {
         } else if ("sendNewUserData".equals(request.getParameter("action"))) {
             if (request.getSession().getAttribute("user") != null) {
                 User user = (User) request.getSession().getAttribute("user");
-//                if (OracleDataBase.getInstance().changeData(user.getId(), request.getParameter("name"),
-//                        request.getParameter("secondName"), request.getParameter("phone"))) {
-//                    request.getSession().setAttribute("user", null);
-//                    sendResponse(response, "<result>OK</result>");
-//                }
                 ((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
                 user.setName(request.getParameter("name"));
                 user.setSecondName(request.getParameter("secondName"));
@@ -129,7 +112,6 @@ public class UserServlet extends HttpServlet {
                 ((EntityManager) request.getSession().getAttribute("em")).getTransaction().commit();
                 request.getSession().setAttribute("user", null);
                 sendResponse(response, "<result>OK</result>");
-
             } else {
                 sendResponse(response, "<result>Please Login</result>");
             }
@@ -157,12 +139,6 @@ public class UserServlet extends HttpServlet {
                         if (Integer.parseInt(request.getParameter("startPrice")) > 0 &&
                                 Integer.parseInt(request.getParameter("buyOutPrice")) > 0) {
                             if (Integer.parseInt(request.getParameter("buyOutPrice")) > Integer.parseInt(request.getParameter("startPrice"))) {
-//                                int productID = OracleDataBase.getInstance().addProduct(user.getId(),
-//                                        request.getParameter("title"),
-//                                        request.getParameter("description"),
-//                                        Long.parseLong(request.getParameter("endDate")) + hours * 3600000 + minutes * 60000,
-//                                        Integer.parseInt(request.getParameter("startPrice")),
-//                                        Integer.parseInt(request.getParameter("buyOutPrice")));
                                 ((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
                                 Product newProduct = new Product();
                                 newProduct.setSellerID(user.getId());
@@ -180,7 +156,6 @@ public class UserServlet extends HttpServlet {
 
                                 if (productID > 0) {
                                     product = null;
-//                                    product = OracleDataBase.getInstance().getProduct(productID);
                                     product = (Product) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, productID).getResultList().get(0);
                                     sendResponse(response, "<result>OK</result>");
                                 } else {
@@ -200,37 +175,25 @@ public class UserServlet extends HttpServlet {
                 }
             }
         } else if ("showLotsPurchased".equals(request.getParameter("action"))) {
-//            if (request.getSession().getAttribute("user") != null) {
             User user = (User) request.getSession().getAttribute("user");
-//                purchasedList = OracleDataBase.getInstance().getUsersBuying(user.getId());
             purchasedList = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_USER_BUYING").setParameter(1, user.getId()).getResultList();
             showContent = "showLotsPurchased";
             sendResponse(response, "<result>OK</result>");
-//            }
         } else if ("followingProducts".equals(request.getParameter("action"))) {
-//            if (request.getSession().getAttribute("user") != null) {
             User user = (User) request.getSession().getAttribute("user");
-//                followingList = OracleDataBase.getInstance().getFollowingProducts(user.getId());
             followingList = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_FOLLOWING_PRODUCTS").setParameter(1, user.getId()).getResultList();
             showContent = "followingProducts";
             sendResponse(response, "<result>OK</result>");
-//            }
         } else if ("clickSoldGoodsPage".equals(request.getParameter("action"))) {
-//            if (request.getSession().getAttribute("user") != null) {
             User user = (User) request.getSession().getAttribute("user");
-//                goods = OracleDataBase.getInstance().getUsersProducts(user.getId());
             goods = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_USERS_PRODUCTS").setParameter(1, user.getId()).getResultList();
             showContent = "clickSoldGoodsPage";
             sendResponse(response, "<result>OK</result>");
-//            }
         } else if ("clickGoodsForSalePage".equals(request.getParameter("action"))) {
-//            if (request.getSession().getAttribute("user") != null) {
             User user = (User) request.getSession().getAttribute("user");
-//                goods = OracleDataBase.getInstance().getUsersProducts(user.getId());
             goods = (List<Product>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_USERS_PRODUCTS").setParameter(1, user.getId()).getResultList();
             showContent = "clickGoodsForSalePage";
             sendResponse(response, "<result>OK</result>");
-//            }
         } else if ("clickGoodsForSale".equals(request.getParameter("action"))) {
             request.getSession().setAttribute("prodID", Integer.parseInt(request.getParameter("prodID")));
             sendResponse(response, "<result>OK</result>");
@@ -238,13 +201,17 @@ public class UserServlet extends HttpServlet {
             categoryID.add(Integer.parseInt(request.getParameter("categoryID")));
             sendResponse(response, "<result>OK</result>");
         } else if ("clickAddCategories".equals(request.getParameter("action"))) {
-//            if (OracleDataBase.getInstance().addCategoriesToProduct(Integer.parseInt(request.getParameter("productID")),
-//                    categoryID)) {
+            for (int i : categoryID) {
+                ((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
+                ProductCategory pc = new ProductCategory();
+                pc.setProductId(Integer.parseInt(request.getParameter("productID")));
+                pc.setCategoryId(i);
+                ((EntityManager) request.getSession().getAttribute("em")).persist(pc);
+                ((EntityManager) request.getSession().getAttribute("em")).getTransaction().commit();
+            }
                 categoryList = null;
                 step2 = true;
-                sendResponse(response, "<result>OK</result>");
-//            }
-
+            sendResponse(response, "<result>OK</result>");
 
         } else if ("clickNewLot".equals(request.getParameter("action"))) {
             product = null;
@@ -255,16 +222,8 @@ public class UserServlet extends HttpServlet {
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             if (uploadImage(request)) {
-//                if (OracleDataBase.getInstance().addPicturesToProduct(product.getId(), productURL)) {
-//                    step3 = true;
-//                    response.getWriter().print("File is successfully uploaded \r\n");
-//                } else {
-//                    response.getWriter().print("Error: Add to pictures \r\n");
-//                }
-
-//                Picture pic = new Picture(product.getId(), productURL.get(0));
                 ((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
-                ((EntityManager) request.getSession().getAttribute("em")).persist(new Picture(product.getId(), productURL.get(0)));
+                ((EntityManager) request.getSession().getAttribute("em")).persist(new Picture(product.getId(), productURL.get(0).toString()));
                 ((EntityManager) request.getSession().getAttribute("em")).getTransaction().commit();
                 step3 = true;
                 response.getWriter().print("File is successfully uploaded \r\n");
@@ -275,9 +234,6 @@ public class UserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        categoryList = OracleDataBase.getInstance().getAllCategories();
-//        pictures = OracleDataBase.getInstance().getAllPictures();
-//        users = OracleDataBase.getInstance().getAllUsers();
         categoryList = (List<Category>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_ALL_CATEGORIES").getResultList();
         users = (List<User>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_ALL_USERS").getResultList();
         pictures = (List<Picture>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_ALL_PICTURES").getResultList();

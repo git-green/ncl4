@@ -1,7 +1,5 @@
 package ua.sumdu.greenberg.model.objects;
 
-import com.sun.istack.internal.Nullable;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,7 +16,7 @@ import javax.persistence.*;
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "GET_ALL_PRODUCTS", query = "SELECT * FROM PRODUCTS WHERE IS_ACTIVE = 'active'", resultClass = Product.class),
 		@NamedNativeQuery(name = "GET_COUNT_PRODUCTS_FOR_ALL", query = "SELECT\n" +
-																		"    count(0)\n" +
+																		"    count(distinct(p.id))\n" +
 																		"FROM\n" +
 																		"  product_category pc,\n" +
 																		"  products p,\n" +
@@ -32,7 +30,7 @@ import javax.persistence.*;
 																		"  and ((p.current_price = 0 and p.start_price <= ?) \n" +
 																		"\tor (p.current_price != 0 and p.current_price <= ?))"),
 		@NamedNativeQuery(name = "GET_COUNT_PRODUCTS_FOR_CATEGORY", query = "SELECT\n" +
-																			"    count(0)\n" +
+																			"    count(distinct(p.id))\n" +
 																			"FROM\n" +
 																			"  product_category pc,\n" +
 																			"  products p,\n" +
@@ -54,7 +52,7 @@ import javax.persistence.*;
 																			"     rownum rn\n" +
 																			"   from\n" +
 																			"     (SELECT\n" +
-																			"        p.*\n" +
+																			"        distinct(p.id), p.seller_id, p.name, p.description, p.start_date, p.end_date, p.start_price, p.buyout_price, p.current_price, p.current_buyer_id, p.is_active\n" +
 																			"      FROM\n" +
 																			"        product_category pc,\n" +
 																			"        products p,\n" +
@@ -77,7 +75,7 @@ import javax.persistence.*;
 																	"     rownum rn\n" +
 																	"   from\n" +
 																	"     (SELECT\n" +
-																	"        p.*\n" +
+																	"        distinct(p.id), p.seller_id, p.name, p.description, p.start_date, p.end_date, p.start_price, p.buyout_price, p.current_price, p.current_buyer_id, p.is_active\n" +
 																	"      FROM\n" +
 																	"        product_category pc,\n" +
 																	"        products p,\n" +
@@ -94,7 +92,7 @@ import javax.persistence.*;
 																	"where\n" +
 																	"  (rn > (? * 10  - 10) and (rn <= ? * 10)) ORDER BY ID ASC", resultClass = Product.class),
 		@NamedNativeQuery(name="FIND_COUNT_ALL_PRODUCT", query="SELECT\n" +
-														"  count(*)\n" +
+														"  count(distinct(p.id))\n" +
 														"FROM\n" +
 														"  products p\n" +
 														"WHERE\n" +
@@ -113,7 +111,7 @@ import javax.persistence.*;
 																"        rownum rn\n" +
 																"    FROM\n" +
 																"        ( SELECT\n" +
-																"              p.*\n" +
+																"              distinct(p.id), p.seller_id, p.name, p.description, p.start_date, p.end_date, p.start_price, p.buyout_price, p.current_price, p.current_buyer_id, p.is_active\n" +
 																"          FROM\n" +
 																"              products p\n" +
 																"          WHERE\n" +
