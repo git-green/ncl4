@@ -149,10 +149,10 @@ public class Product implements Serializable {
 	@Column(name = "DESCRIPTION")
 	private String description;
 	@Column(name = "START_DATE")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDate;
 	@Column(name = "END_DATE")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	@Column(name = "START_PRICE")
 	private int startPrice;

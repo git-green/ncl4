@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -144,8 +145,8 @@ public class UserServlet extends HttpServlet {
                                 newProduct.setSellerID(user.getId());
                                 newProduct.setName(request.getParameter("title"));
                                 newProduct.setDescription(request.getParameter("description"));
-                                newProduct.setStartDate(new Date());
-                                newProduct.setEndDate(new Date(Long.parseLong(request.getParameter("endDate")) + hours * 3600000 + minutes * 60000));
+                                newProduct.setStartDate(new Timestamp(new Date().getTime()));
+                                newProduct.setEndDate(new Timestamp(Long.parseLong(request.getParameter("endDate")) + hours * 3600000 + minutes * 60000));
                                 newProduct.setStartPrice(Integer.parseInt(request.getParameter("startPrice")));
                                 newProduct.setBuyoutPrice(Integer.parseInt(request.getParameter("buyOutPrice")));
                                 newProduct.setCurrentPrice(0);
