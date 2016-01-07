@@ -53,16 +53,22 @@ public class AdminServlet extends HttpServlet {
 				for (Integer id : deleteList) {
 					((EntityManager) request.getSession().getAttribute("em")).getTransaction().begin();
 					if (!((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_FOLLOWING_BY_ID").setParameter(1, id).getResultList().isEmpty()) {
-						Following following = (Following) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_FOLLOWING_BY_ID").setParameter(1, id).getResultList().get(0);
-						((EntityManager) request.getSession().getAttribute("em")).remove(following);
+						List<Following> followingS = (List<Following>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_FOLLOWING_BY_ID").setParameter(1, id).getResultList();
+						for (Following fl : followingS) {
+							((EntityManager) request.getSession().getAttribute("em")).remove(fl);
+						}
 					}
 					if (!((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PICTURE_BY_ID").setParameter(1, id).getResultList().isEmpty()) {
-						Picture picture = (Picture) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PICTURE_BY_ID").setParameter(1, id).getResultList().get(0);
-						((EntityManager) request.getSession().getAttribute("em")).remove(picture);
+						List<Picture> pictureS = (List<Picture>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PICTURE_BY_ID").setParameter(1, id).getResultList();
+						for (Picture p : pictureS) {
+							((EntityManager) request.getSession().getAttribute("em")).remove(p);
+						}
 					}
 					if (!((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_CATEGORY_BY_ID").setParameter(1, id).getResultList().isEmpty()) {
-						ProductCategory productCategory = (ProductCategory) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_CATEGORY_BY_ID").setParameter(1, id).getResultList().get(0);
-						((EntityManager) request.getSession().getAttribute("em")).remove(productCategory);
+						List<ProductCategory> productCategoryS = (List<ProductCategory>) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_CATEGORY_BY_ID").setParameter(1, id).getResultList();
+						for (ProductCategory pc : productCategoryS) {
+							((EntityManager) request.getSession().getAttribute("em")).remove(pc);
+						}
 					}
 					if (!((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, id).getResultList().isEmpty()) {
 						Product product = (Product) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, id).getResultList().get(0);

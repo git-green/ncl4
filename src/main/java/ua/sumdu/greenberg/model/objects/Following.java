@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "FOLLOWINGS")
 @NamedNativeQueries({
-        @NamedNativeQuery(name="GET_FOLLOWING_BY_ID", query="SELECT * FROM FOLLOWINGS WHERE ID = ?", resultClass = Following.class)
+        @NamedNativeQuery(name="GET_FOLLOWING_BY_ID", query="SELECT * FROM FOLLOWINGS WHERE PRODUCT_ID = ?", resultClass = Following.class)
 })
 public class Following implements Serializable {
     private static final long serialVersionUID = 1L;
