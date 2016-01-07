@@ -1,9 +1,7 @@
 package ua.sumdu.greenberg.model.objects;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +15,7 @@ import java.util.List;
 @Table(name = "USERS")
 @NamedNativeQueries({
 		@NamedNativeQuery(name="GET_ALL_USERS", query="SELECT * FROM USERS", resultClass = User.class),
+		@NamedNativeQuery(name="GET_USER_BY_ID", query="SELECT * FROM USERS WHERE id = ?", resultClass = User.class),
 		@NamedNativeQuery(name="AUTHORIZATION", query="SELECT * FROM USERS WHERE LOGIN = ? AND PASSWORD = ?", resultClass = User.class),
 		@NamedNativeQuery(name="AUTHORIZATION_BY_EMAIL", query="SELECT * FROM USERS WHERE EMAIL = ? AND PASSWORD = ?", resultClass = User.class),
 		@NamedNativeQuery(name="LOGIN_IS_FREE", query="SELECT count(0) FROM users WHERE login = ?"),
@@ -40,7 +39,6 @@ public class User implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "BIRTH")
 	private Date birth;
-//	private int age;
 	@Column(name = "EMAIL")
 	private String eMail;
 	@Column(name = "PHONE")
@@ -54,12 +52,6 @@ public class User implements Serializable {
 	private String active;
 	@Column(name = "IS_BANED")
 	private String baned;
-
-//	private boolean isAdmin;
-
-//	private boolean isActivated;
-
-//	private boolean isBanned;
 
 	public User(){}
 

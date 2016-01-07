@@ -13,11 +13,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "CATEGORIES")
 @NamedNativeQueries({
-		@NamedNativeQuery(name="GET_ALL_CATEGORIES", query="SELECT * FROM CATEGORIES", resultClass = Category.class)
+		@NamedNativeQuery(name="GET_ALL_CATEGORIES", query="SELECT * FROM CATEGORIES", resultClass = Category.class),
+		@NamedNativeQuery(name="GET_CATEGORY_BY_ID", query="SELECT * FROM CATEGORIES WHERE ID = ?", resultClass = Category.class)
 })
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "CATEGORY_ID_S")
+	@SequenceGenerator(name = "CATEGORY_ID_S", sequenceName = "CATEGORY_ID_S", allocationSize = 1)
 	@Column(name = "ID")
 	private int id;
 	@Column(name = "PARENT_ID")

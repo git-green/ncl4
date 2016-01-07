@@ -8,6 +8,9 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "PRODUCT_CATEGORY")
+@NamedNativeQueries({
+        @NamedNativeQuery(name="GET_PRODUCT_CATEGORY_BY_ID", query="SELECT * FROM PRODUCT_CATEGORY WHERE PRODUCT_ID = ?", resultClass = ProductCategory.class)
+})
 public class ProductCategory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -19,10 +19,10 @@
  <%@include file="../jspf/admin-header.jspf" %>
 		
 	<%
-		List<User> users = (ArrayList<User>) request.getAttribute("users");
-		List<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
-    	List<Product> products = (ArrayList<Product>) request.getAttribute("products");
-    	List<Picture> pictures = (ArrayList<Picture>) request.getAttribute("pictures");
+		List<User> users = (List<User>) request.getAttribute("users");
+		List<Category> categories = (List<Category>) request.getAttribute("categories");
+    	List<Product> products = (List<Product>) request.getAttribute("products");
+    	List<Picture> pictures = (List<Picture>) request.getAttribute("pictures");
 	 %>
 	
 	<%! java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd MMM yyyy hh:mm");%>
