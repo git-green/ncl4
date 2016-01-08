@@ -65,10 +65,10 @@
         <servlet-name>ProductServlet</servlet-name>
         <servlet-class>ua.sumdu.greenberg.servlets.ProductServlet</servlet-class>
     </servlet>
-    <!--<servlet>-->
-    	<!--<servlet-name>VerificationServlet</servlet-name>-->
-    	<!--<servlet-class>ua.sumdu.greenberg.servlets.VerificationServlet</servlet-class>-->
-    <!--</servlet>-->
+    <servlet>
+    	<servlet-name>VerificationServlet</servlet-name>
+    	<servlet-class>ua.sumdu.greenberg.servlets.VerificationServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>ua.sumdu.greenberg.servlets.UserServlet</servlet-class>
@@ -119,10 +119,10 @@
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/user</url-pattern>
     </servlet-mapping>
-    <!--<servlet-mapping>-->
-    	<!--<servlet-name>VerificationServlet</servlet-name>-->
-    	<!--<url-pattern>/Verification</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+    	<servlet-name>VerificationServlet</servlet-name>
+    	<url-pattern>/Verification</url-pattern>
+    </servlet-mapping>
     <!--<servlet-mapping>-->
     	<!--<servlet-name>LookUserServlet</servlet-name>-->
     	<!--<url-pattern>/lookUser</url-pattern>-->

@@ -19,7 +19,9 @@ import java.util.List;
 		@NamedNativeQuery(name="AUTHORIZATION", query="SELECT * FROM USERS WHERE LOGIN = ? AND PASSWORD = ?", resultClass = User.class),
 		@NamedNativeQuery(name="AUTHORIZATION_BY_EMAIL", query="SELECT * FROM USERS WHERE EMAIL = ? AND PASSWORD = ?", resultClass = User.class),
 		@NamedNativeQuery(name="LOGIN_IS_FREE", query="SELECT count(0) FROM users WHERE login = ?"),
-		@NamedNativeQuery(name="EMAIL_IS_FREE", query="SELECT count(0) FROM users WHERE email = ?")
+		@NamedNativeQuery(name="EMAIL_IS_FREE", query="SELECT count(0) FROM users WHERE email = ?"),
+		@NamedNativeQuery(name="GET_PRODUCT_SELLER",query="select u.* from users u, products p where u.id = p.SELLER_ID and p.id = ?", resultClass = User.class),
+		@NamedNativeQuery(name="GET_USER_BY_LOGIN", query="select * from users where login = ?", resultClass = User.class)
 })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
