@@ -20,9 +20,9 @@
 
 	<% 
 		User user = (User) request.getAttribute("lookingUser");
-		List<Product> buying = (ArrayList<Product>) request.getAttribute("buying");
-		List<Product> solding = (ArrayList<Product>) request.getAttribute("solding");
-		List<User> users = (ArrayList<User>) request.getAttribute("users");
+		List<Product> buying = (List<Product>) request.getAttribute("buying");
+		List<Product> solding = (List<Product>) request.getAttribute("solding");
+		List<User> users = (List<User>) request.getAttribute("users");
 	
  	%>
 	  

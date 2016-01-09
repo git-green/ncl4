@@ -78,10 +78,10 @@
         <servlet-class>ua.sumdu.greenberg.servlets.ImageCaptchaServlet</servlet-class>
   		<load-on-startup>0</load-on-startup>
     </servlet>
-	<!--<servlet>-->
-		<!--<servlet-name>LookUserServlet</servlet-name>-->
-		<!--<servlet-class>ua.sumdu.greenberg.servlets.LookUserServlet</servlet-class>-->
-	<!--</servlet> -->
+	<servlet>
+		<servlet-name>LookUserServlet</servlet-name>
+		<servlet-class>ua.sumdu.greenberg.servlets.LookUserServlet</servlet-class>
+	</servlet>
 
 
     <servlet-mapping>
@@ -123,10 +123,10 @@
     	<servlet-name>VerificationServlet</servlet-name>
     	<url-pattern>/Verification</url-pattern>
     </servlet-mapping>
-    <!--<servlet-mapping>-->
-    	<!--<servlet-name>LookUserServlet</servlet-name>-->
-    	<!--<url-pattern>/lookUser</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+    	<servlet-name>LookUserServlet</servlet-name>
+    	<url-pattern>/lookUser</url-pattern>
+    </servlet-mapping>
     
     <welcome-file-list>
         <welcome-file>/index</welcome-file>

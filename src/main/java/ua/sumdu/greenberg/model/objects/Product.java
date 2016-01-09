@@ -133,7 +133,8 @@ import javax.persistence.*;
 																"      p.id = f.product_id \n" +
 																"      and f.follower_id= ? \n" +
 																"      and p.is_active = 'active'", resultClass = Product.class),
-		@NamedNativeQuery(name="GET_USERS_PRODUCTS", query="SELECT * FROM PRODUCTS WHERE SELLER_ID = ?", resultClass = Product.class)
+		@NamedNativeQuery(name="GET_USERS_PRODUCTS", query="SELECT * FROM PRODUCTS WHERE SELLER_ID = ?", resultClass = Product.class),
+		@NamedNativeQuery(name="GET_USER_BUYING", query="SELECT * FROM PRODUCTS WHERE CURRENT_BUYER_ID = ? AND IS_ACTIVE = 'disactive'", resultClass = Product.class)
 })
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
