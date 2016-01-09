@@ -16,10 +16,10 @@
         <div id="block-contact">
             tel. XXX XXX XX XX<br>
             tel. XXX XXX XX XX<br><br><br>
-            group7.3@sumy.ua
+            greenberg@sumy.ua
         </div>
         <div id="block-name-site">
-            <h1 align="center"><strong>AUCTION</strong></h1>
+            <div align="center" style="font-size : 85px;"><strong>AUCTION</strong></div>
         </div>
     </header>
 </div>
