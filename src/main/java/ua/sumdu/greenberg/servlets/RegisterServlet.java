@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -61,7 +62,7 @@ public class RegisterServlet extends HttpServlet {
                 user.setBirth(new Date(Long.parseLong(request.getParameter("age"))));
                 user.seteMail(request.getParameter("email"));
                 user.setPhone(request.getParameter("phone"));
-                user.setRegistrationDate(new Date());
+                user.setRegistrationDate(new Timestamp(new Date().getTime()));
                 user.setStatus("user");
                 user.setActive("unactivated");
                 user.setBaned("unbanned");

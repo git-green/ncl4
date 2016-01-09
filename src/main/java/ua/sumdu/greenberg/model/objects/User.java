@@ -45,7 +45,7 @@ public class User implements Serializable {
 	private String eMail;
 	@Column(name = "PHONE")
 	private String phone;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "REGISTRATION_DATE")
 	private Date registrationDate;
 	@Column(name = "STATUS")

@@ -6,6 +6,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 //import ua.sumdu.greenberg.model.Messager;
+import ua.sumdu.greenberg.model.Messager;
 import ua.sumdu.greenberg.model.objects.*;
 
 import javax.persistence.EntityManager;
@@ -119,10 +120,10 @@ public class UserServlet extends HttpServlet {
         } else if ("clickChangeEmail".equals(request.getParameter("action"))) {
             if (request.getSession().getAttribute("user") != null) {
                 User user = (User) request.getSession().getAttribute("user");
-//                if (Messager.changeMail(user.getLogin(), request.getParameter("checkEmail"))) {
-//                    request.getSession().setAttribute("user", null);
-//                    sendResponse(response, "<result>OK</result>");
-//                }
+                if (Messager.changeMail(user.getLogin(), request.getParameter("checkEmail"))) {
+                    request.getSession().setAttribute("user", null);
+                    sendResponse(response, "<result>OK</result>");
+                }
             } else {
                 sendResponse(response, "<result>Please Login</result>");
             }

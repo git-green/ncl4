@@ -1,6 +1,7 @@
 package ua.sumdu.greenberg.servlets;
 
 import org.apache.log4j.Logger;
+import ua.sumdu.greenberg.model.Messager;
 import ua.sumdu.greenberg.model.objects.Following;
 import ua.sumdu.greenberg.model.objects.Picture;
 import ua.sumdu.greenberg.model.objects.Product;
@@ -25,7 +26,6 @@ import java.util.List;
 */
 public class ProductServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(IndexServlet.class);
-//    EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
     private Product product;
     private List<Picture> pictures;
     private List<User> users;
@@ -52,7 +52,7 @@ public class ProductServlet extends HttpServlet {
                     ((EntityManager) request.getSession().getAttribute("em")).persist(f);
                     ((EntityManager) request.getSession().getAttribute("em")).getTransaction().commit();
 
-                    // message
+                    Messager.sendBetMessage(product.getId());
                     sendResponse(response, "<result>OK</result>");
                 }
             }
@@ -64,7 +64,8 @@ public class ProductServlet extends HttpServlet {
             product.setEndDate(new Date());
             product.setActive("disactive");
             ((EntityManager) request.getSession().getAttribute("em")).getTransaction().commit();
-            // message
+
+            Messager.sendEndAuctionMessage(product.getId());
             sendResponse(response, "<result>OK</result>");
         }
     }

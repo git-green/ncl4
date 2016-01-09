@@ -10,18 +10,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 public class Messager {
-    static EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
 	private static final Logger log = Logger.getLogger(Messager.class);
-
 
 	private static final String VERIFICATION_URL =
 			"http://localhost:7701/AuctionEJB/Verification";
 
 	public static void sendEndAuctionMessage(final int productID) {
-
 		log.info("Method sendEndAuctionMessage starts.....");
 		new Thread(){
 		    public void run(){
+				EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
 				MailSender mailer = MailSender.getInstance();
                 Product product = (Product) em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, productID).getResultList().get(0);
 				if (product.getCurrentPrice() == 0)
@@ -57,6 +55,7 @@ public class Messager {
 				sellerTextSB.append("This mail was generated automatically, please don't answer on it");
 
 				mailer.send("Auction Lab4: SELL", sellerTextSB.toString(), sellerMail);
+				em.close();
 		    }
 		  }.start();
 	}
@@ -64,8 +63,10 @@ public class Messager {
 	public static void sendBetMessage(final int productID) {
 		log.info("Method sendEndAuctionMessage starts.....");
 
+
 		new Thread(){
 		    public void run(){
+				EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
                 User user = (User) em.createNamedQuery("GET_PRODUCT_SELLER").setParameter(1, productID).getResultList().get(0);
                 Product product = (Product) em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, productID).getResultList().get(0);
 				MailSender mailer = MailSender.getInstance();
@@ -77,6 +78,7 @@ public class Messager {
 				sb.append("This mail was generated automatically, please don't answer on it");
 
 				mailer.send("Auction Lab4: BUY", sb.toString(), user.geteMail());
+				em.close();
 		    }
 		  }.start();
 	}
@@ -106,15 +108,15 @@ public class Messager {
 
 	public static boolean changeMail(final String login, final String mail) {
 		log.info("Method changeMailLetter starts.....");
-
+		EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
         if (!(((Number) em.createNamedQuery("EMAIL_IS_FREE").setParameter(1, mail).getSingleResult()).intValue() == 0)) return false;
-
+		em.close();
 		new Thread(){
 		    public void run(){
 				MailSender mailer = MailSender.getInstance();
 				StringBuilder textSB = new StringBuilder();
 				textSB.append("Hello, " + login +"! <br>");
-				textSB.append("You just changed email of your account in auction Lab3!<br><br>");
+				textSB.append("You just changed email of your account in auction Lab4!<br><br>");
 
 				textSB.append("<a href=\"" +
 						VERIFICATION_URL +
@@ -125,7 +127,6 @@ public class Messager {
 				mailer.send("Auction Lab4: MAIL CHANGING", textSB.toString(), mail);
 		    }
 		}.start();
-		em.flush();
 		return true;
 	}
 
