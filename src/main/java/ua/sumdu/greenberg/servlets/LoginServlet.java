@@ -29,30 +29,34 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         if ("login".equals(request.getParameter("action"))) {
             log.info("Click login");
-            User user = (User) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("AUTHORIZATION").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
-            log.info("USER - " + user);
-            if (user != null) {
-                if (!user.isBanned()) {
-                    if (user.isActivated()) {
-                        request.getSession().setAttribute("user", user);
-                        sendResponse(response, "<result>OK</result>");
+            if (!((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("AUTHORIZATION").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().isEmpty()) {
+                User user = (User) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("AUTHORIZATION").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
+                log.info("USER - " + user);
+                if (user != null) {
+                    if (!user.isBanned()) {
+                        if (user.isActivated()) {
+                            request.getSession().setAttribute("user", user);
+                            sendResponse(response, "<result>OK</result>");
+                        } else {
+                            sendResponse(response, "<result>Account don't active</result>");
+                        }
                     } else {
-                        sendResponse(response, "<result>Account don't active</result>");
+                        sendResponse(response, "<result>You are banned</result>");
                     }
-                } else {
-                    sendResponse(response, "<result>You are banned</result>");
                 }
             } else {
                 sendResponse(response, "<result>Login incorrect.</result>");
             }
         } else if ("loginEmail".equals(request.getParameter("action"))) {
-            User res = (User) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("AUTHORIZATION_BY_EMAIL").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
-            if (res != null) {
-                if (!res.isBanned()) {
-                    request.getSession().setAttribute("user", res);
-                    sendResponse(response, "<result>OK</result>");
-                } else {
-                    sendResponse(response, "<result>You are banned</result>");
+            if (!((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("AUTHORIZATION_BY_EMAIL").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().isEmpty()) {
+                User res = (User) ((EntityManager) request.getSession().getAttribute("em")).createNamedQuery("AUTHORIZATION_BY_EMAIL").setParameter(1, request.getParameter("login")).setParameter(2, request.getParameter("password")).getResultList().get(0);
+                if (res != null) {
+                    if (!res.isBanned()) {
+                        request.getSession().setAttribute("user", res);
+                        sendResponse(response, "<result>OK</result>");
+                    } else {
+                        sendResponse(response, "<result>You are banned</result>");
+                    }
                 }
             } else {
                 sendResponse(response, "<result>Email incorrect.</result>");
