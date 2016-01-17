@@ -146,12 +146,9 @@ public class User implements Serializable {
 	}
 
 	public int getAge() {
-		return 20;
+		Long t = (new Date().getTime() - getBirth().getTime())/1000/60/60/24/365;
+		return t.intValue();
 	}
-
-//	public void setAge(int age) {
-//		this.age = age;
-//	}
 
 	public String getStatus() {
 		return status;
