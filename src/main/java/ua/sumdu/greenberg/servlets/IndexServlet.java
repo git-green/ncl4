@@ -2,7 +2,7 @@ package ua.sumdu.greenberg.servlets;
 
 import org.apache.log4j.Logger;
 
-//import ua.sumdu.greenberg.model.ServerTimerTask;
+import ua.sumdu.greenberg.model.EManager;
 import ua.sumdu.greenberg.model.ServerTimerTask;
 import ua.sumdu.greenberg.model.objects.Category;
 import ua.sumdu.greenberg.model.objects.Picture;
@@ -10,7 +10,6 @@ import ua.sumdu.greenberg.model.objects.Product;
 import ua.sumdu.greenberg.model.objects.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -44,7 +43,7 @@ public class IndexServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         log.info("Init UserServlet");
-        em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
+        em = EManager.getInstance();
         ServerTimerTask.run();
     }
 
@@ -194,6 +193,4 @@ public class IndexServlet extends HttpServlet {
             log.error(e);
         }
     }
-
-
 }

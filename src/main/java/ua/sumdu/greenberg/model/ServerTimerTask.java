@@ -7,12 +7,13 @@ import ua.sumdu.greenberg.model.objects.Product;
 import ua.sumdu.greenberg.model.objects.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 
 public class ServerTimerTask {
 
 	private static final int DELAY = 300000;//Every 300 seconds
 	private static Timer timer = null;
+    private static EntityManager ems = EManager.getInstance();
+    private EntityManager em = EManager.getInstance();
 
 	private static ServerTimerTask instance;
 
@@ -28,7 +29,6 @@ public class ServerTimerTask {
 			@Override
 			public void run() {
 		    	finishAuctions();
-                EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
                 List<User> users = (List<User>) em.createNamedQuery("GET_ALL_USERS").getResultList();
                 if (!users.isEmpty()) {
                     for (User user : users) {
@@ -39,7 +39,6 @@ public class ServerTimerTask {
                         }
                     }
                 }
-                em.close();
 			}
 		};
 		timer.schedule(st, DELAY, DELAY);
@@ -53,22 +52,20 @@ public class ServerTimerTask {
 	}
 
 	private static void finishAuctions() {
-        EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
-        List<Product> getProducts = (List<Product>) em.createNamedQuery("GET_ALL_PRODUCTS").getResultList();
-        em.getTransaction().begin();
+        List<Product> getProducts = (List<Product>) ems.createNamedQuery("GET_ALL_PRODUCTS").getResultList();
+        ems.getTransaction().begin();
         for (Product product : getProducts) {
             if (product.getEndDate().getTime() < new Date().getTime()) {
                 product.setActive("disactive");
                 if (product.getCurrentPrice() != 0) {
-                    List<Following> getFollowings = (List<Following>) em.createNamedQuery("GET_FOLLOWING_BY_ID").setParameter(1, product.getId()).getResultList();
+                    List<Following> getFollowings = (List<Following>) ems.createNamedQuery("GET_FOLLOWING_BY_ID").setParameter(1, product.getId()).getResultList();
                     for (Following following : getFollowings) {
-                        em.remove(following);
+                        ems.remove(following);
                     }
                     Messager.sendEndAuctionMessage(product.getId());
                 }
             }
         }
-        em.getTransaction().commit();
-        em.close();
+        ems.getTransaction().commit();
 	}
 }

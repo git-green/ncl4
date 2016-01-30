@@ -7,10 +7,10 @@ import org.apache.log4j.Logger;
 import ua.sumdu.greenberg.model.objects.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 
 public class Messager {
 	private static final Logger log = Logger.getLogger(Messager.class);
+	private static EntityManager em = EManager.getInstance();
 
 	private static final String VERIFICATION_URL =
 			"http://localhost:7701/AuctionEJB/Verification";
@@ -19,7 +19,6 @@ public class Messager {
 		log.info("Method sendEndAuctionMessage starts.....");
 		new Thread(){
 		    public void run(){
-				EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
 				MailSender mailer = MailSender.getInstance();
                 Product product = (Product) em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, productID).getResultList().get(0);
 				if (product.getCurrentPrice() == 0)
@@ -55,7 +54,6 @@ public class Messager {
 				sellerTextSB.append("This mail was generated automatically, please don't answer on it");
 
 				mailer.send("Auction Lab4: SELL", sellerTextSB.toString(), sellerMail);
-				em.close();
 		    }
 		  }.start();
 	}
@@ -66,7 +64,6 @@ public class Messager {
 
 		new Thread(){
 		    public void run(){
-				EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
                 User user = (User) em.createNamedQuery("GET_PRODUCT_SELLER").setParameter(1, productID).getResultList().get(0);
                 Product product = (Product) em.createNamedQuery("GET_PRODUCT_BY_ID").setParameter(1, productID).getResultList().get(0);
 				MailSender mailer = MailSender.getInstance();
@@ -78,7 +75,6 @@ public class Messager {
 				sb.append("This mail was generated automatically, please don't answer on it");
 
 				mailer.send("Auction Lab4: BUY", sb.toString(), user.geteMail());
-				em.close();
 		    }
 		  }.start();
 	}
@@ -108,9 +104,7 @@ public class Messager {
 
 	public static boolean changeMail(final String login, final String mail) {
 		log.info("Method changeMailLetter starts.....");
-		EntityManager em = Persistence.createEntityManagerFactory("JavaAuction").createEntityManager();
         if (!(((Number) em.createNamedQuery("EMAIL_IS_FREE").setParameter(1, mail).getSingleResult()).intValue() == 0)) return false;
-		em.close();
 		new Thread(){
 		    public void run(){
 				MailSender mailer = MailSender.getInstance();
